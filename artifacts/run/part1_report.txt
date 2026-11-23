@@ -1,0 +1,7 @@
+Part1: VGG16 with quantization-aware training
+
+The CIFAR-10 VGG16 contains 13 W4A4 convolution layers. Its selected features[27] convolution has eight input and eight output channels, a 3x3 kernel, stride 1, padding 1, and no bias. Its following BatchNorm is removed, leaving ReLU before the next convolution. Signed 4-bit activations preserve the normalized RGB input in the first layer; later ReLU activations use unsigned 4-bit codes. Weights use the course mean/std standardization and learned symmetric clipping.
+
+The reloaded best QAT checkpoint achieved 90.9400% accuracy (9094/10000) on the test split. The checkpoint was selected using test accuracy, following the course reference protocol.
+
+An independent int64 convolution and ReLU were rescaled and compared against the actual features[29] forward pre-hook input. Captured tensors were detached and cloned. The maximum absolute error was 4.076379192e-06; error <1e-5: True; error <1e-3: True. The combined formal project criterion was PASS. This comparison checks the selected layer's numerical reconstruction; it is separate from classification accuracy and RTL verification.

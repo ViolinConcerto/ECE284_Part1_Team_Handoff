@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "negative_control_exit_code": 1,
+  "stdout": "",
+  "stderr": "FAIL: Scalar convolution + ReLU vs golden: 1 mismatched scalar values\n",
+  "mutation": "Flipped one bit of the first expected ReLU output word, in both the golden file and its psum.txt alias, in a temporary copy only."
+}

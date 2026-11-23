@@ -1,0 +1,20 @@
+# New local runs/data and temporary outputs
+/data/
+/runs/
+/qa/
+*.pth
+*.pt
+*.ckpt
+# Frozen best checkpoint is part of this team handoff
+!/artifacts/checkpoints/best.pth
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.vcd
+*.vvp

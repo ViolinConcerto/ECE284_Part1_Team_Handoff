@@ -1,0 +1,113 @@
+{
+  "device": "auto",
+  "data_root": "/home/chren/private/ECE284_Part1/data",
+  "output": "/home/chren/private/ECE284_Part1/runs/part1",
+  "download": true,
+  "batch_size": 128,
+  "workers": 2,
+  "threads": 4,
+  "seed": 284,
+  "deterministic": false,
+  "qat_epochs": 200,
+  "warmup_epochs": 0,
+  "lr": 0.02,
+  "warmup_lr": 0.05,
+  "weight_decay": 0.0001,
+  "alpha_regularization": 1e-05,
+  "milestones": [
+    80,
+    140,
+    180
+  ],
+  "gamma": 0.1,
+  "resume": null,
+  "evaluate": null,
+  "sample_index": 0,
+  "smoke_test": false,
+  "device_selected": "cuda",
+  "torch_version": "2.2.1+cu121",
+  "architecture": {
+    "model": "VGG16QAT",
+    "dataset": "CIFAR10",
+    "num_classes": 10,
+    "input_shape": [
+      3,
+      32,
+      32
+    ],
+    "feature_configuration": [
+      64,
+      64,
+      "M",
+      128,
+      128,
+      "M",
+      256,
+      256,
+      256,
+      "M",
+      8,
+      8,
+      512,
+      "M",
+      512,
+      512,
+      512,
+      "M"
+    ],
+    "convolution_count": 13,
+    "quantized_convolution_count": 13,
+    "activation_bits": 4,
+    "weight_bits": 4,
+    "activation_integer_range": [
+      0,
+      15
+    ],
+    "first_activation_integer_range": [
+      -7,
+      7
+    ],
+    "first_activation_signed": true,
+    "weight_integer_range": [
+      -7,
+      7
+    ],
+    "floating_point_layers": [
+      "classifier",
+      "features.1",
+      "features.4",
+      "features.8",
+      "features.11",
+      "features.15",
+      "features.18",
+      "features.21",
+      "features.25",
+      "features.30",
+      "features.34",
+      "features.37",
+      "features.40"
+    ],
+    "selected_layer": "features.27",
+    "next_layer": "features.29",
+    "selected_layer_shape": [
+      8,
+      8,
+      3,
+      3
+    ],
+    "selected_output_shape": [
+      8,
+      4,
+      4
+    ],
+    "selected_batchnorm": false,
+    "quantization_enabled": true,
+    "scale_parameterization": "softplus(raw_alpha) + 1e-8",
+    "weight_standardization": "detached mean/std before weight quantization",
+    "initial_weight_alpha": 3.0,
+    "initial_activation_alpha": 8.0,
+    "initial_first_activation_alpha": 3.0,
+    "warmup": "disable rounding/clipping; retain weight standardization"
+  },
+  "evaluation_protocol": "Complete CIFAR10 test split (10000 images). Best checkpoint selected by test accuracy, matching course reference; not an untouched research holdout."
+}

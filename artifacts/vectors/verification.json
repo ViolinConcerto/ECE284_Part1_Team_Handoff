@@ -1,0 +1,189 @@
+{
+  "accuracy_claim": "This single-layer check does not establish dataset classification accuracy; use the separate full-test-set evaluation.",
+  "activation_bits": 4,
+  "activation_integer_max": 11,
+  "activation_integer_min": 0,
+  "activation_scale": 0.46577975153923035,
+  "activation_shape_nchw": [
+    1,
+    8,
+    4,
+    4
+  ],
+  "architecture": {
+    "activation_bits": 4,
+    "activation_integer_range": [
+      0,
+      15
+    ],
+    "convolution_count": 13,
+    "dataset": "CIFAR10",
+    "feature_configuration": [
+      64,
+      64,
+      "M",
+      128,
+      128,
+      "M",
+      256,
+      256,
+      256,
+      "M",
+      8,
+      8,
+      512,
+      "M",
+      512,
+      512,
+      512,
+      "M"
+    ],
+    "first_activation_integer_range": [
+      -7,
+      7
+    ],
+    "first_activation_signed": true,
+    "floating_point_layers": [
+      "classifier",
+      "features.1",
+      "features.4",
+      "features.8",
+      "features.11",
+      "features.15",
+      "features.18",
+      "features.21",
+      "features.25",
+      "features.30",
+      "features.34",
+      "features.37",
+      "features.40"
+    ],
+    "initial_activation_alpha": 8.0,
+    "initial_first_activation_alpha": 3.0,
+    "initial_weight_alpha": 3.0,
+    "input_shape": [
+      3,
+      32,
+      32
+    ],
+    "model": "VGG16QAT",
+    "next_layer": "features.29",
+    "num_classes": 10,
+    "quantization_enabled": true,
+    "quantized_convolution_count": 13,
+    "scale_parameterization": "softplus(raw_alpha) + 1e-8",
+    "selected_batchnorm": false,
+    "selected_layer": "features.27",
+    "selected_layer_shape": [
+      8,
+      8,
+      3,
+      3
+    ],
+    "selected_output_shape": [
+      8,
+      4,
+      4
+    ],
+    "warmup": "disable rounding/clipping; retain weight standardization",
+    "weight_bits": 4,
+    "weight_integer_range": [
+      -7,
+      7
+    ],
+    "weight_standardization": "detached mean/std before weight quantization"
+  },
+  "arrays_file": "tensors.npz",
+  "comparison_operator": "strictly less than (<), elementwise max absolute error",
+  "evidence_type": "trained_model",
+  "formal_pass": true,
+  "formal_tolerance": 0.001,
+  "input_model_device": "cuda:0",
+  "input_model_dtype": "torch.float32",
+  "integer_arithmetic": "numpy int64 sliding windows and einsum; no floating point convolution in integer reference",
+  "layer_name": "features.27",
+  "max_abs_error": 4.076379191531032e-06,
+  "max_abs_error_pre_relu_vs_selected_fp_forward": 4.076379191531032e-06,
+  "mean_abs_error": 3.2620222457924175e-07,
+  "model_sha256": "747dc1546f41df96d02b3b8936d796bc38b11bafba9edbd8713f84c07a39ccad",
+  "next_layer_name": "features.29",
+  "output_shape_nchw": [
+    1,
+    8,
+    4,
+    4
+  ],
+  "provenance": {
+    "checkpoint": "/home/chren/private/ECE284_Part1/runs/part1/best.pth",
+    "dataset": "CIFAR10",
+    "dataset_index": 0,
+    "evidence_type": "trained_model",
+    "label": 3,
+    "note": "Fixed test index; the sample was not selected by verification error.",
+    "split": "test",
+    "validation": {
+      "accuracy_pct": 90.94,
+      "correct": 9094,
+      "loss": 0.4803284370422363,
+      "total": 10000
+    }
+  },
+  "recovery_arithmetic": "float64(int64_psum_after_relu) * recorded activation_scale * recorded weight_scale",
+  "reference_is_exact_relu_of_selected_forward_output": true,
+  "reference_source": "Actual next-convolution forward pre-hook input, captured with detach().clone() during a full quantized model forward pass.",
+  "rmse": 6.81889645482884e-07,
+  "sample_index_in_batch": 0,
+  "schema_version": 1,
+  "signed_error_sum_diagnostic_only": 1.3270109489482707e-05,
+  "status": "PASS",
+  "strict_pass": true,
+  "strict_tolerance": 1e-05,
+  "trained_model_evidence": true,
+  "vectors": {
+    "accumulation_addresses": "acc_address.txt",
+    "activation": "activation/activation.txt",
+    "activation_encoding": "unsigned 4-bit (0..15)",
+    "activation_word_bits": 32,
+    "activation_words": 36,
+    "address_word_bits": 11,
+    "address_words": 144,
+    "aliases": {
+      "input.txt": "Byte-identical alias of activation/activation.txt",
+      "psum.txt": "Byte-identical alias of output/output_after_relu.txt",
+      "weight.txt": "Three header tokens, then nine kernel blocks of eight words"
+    },
+    "compatibility": "Part3alpha/verilog/core_tb.v, run from export directory",
+    "expected_pre_relu_output": "output/output_updated.txt",
+    "expected_relu_output": "output/output_after_relu.txt",
+    "header_handling": "Skip exactly three whitespace-delimited tokens in input/weight files; output/address files have no headers.",
+    "output_word_bits": 128,
+    "output_words": 16,
+    "psum_domain": "Integer accumulation units, after ReLU for psum.txt; multiply by activation_scale*weight_scale for model-domain values.",
+    "psum_encoding": "signed 16-bit two's complement",
+    "weight_encoding": "signed 4-bit two's complement (-7..7)",
+    "weight_word_bits": 32,
+    "weight_words_per_kernel": 8,
+    "weights": [
+      "weights/weight0.txt",
+      "weights/weight1.txt",
+      "weights/weight2.txt",
+      "weights/weight3.txt",
+      "weights/weight4.txt",
+      "weights/weight5.txt",
+      "weights/weight6.txt",
+      "weights/weight7.txt",
+      "weights/weight8.txt"
+    ],
+    "word_order": "Channel 0 occupies least significant bits; binary text displays channel 7 first. Pixels and kernel positions are row-major."
+  },
+  "weight_bits": 4,
+  "weight_integer_max": 7,
+  "weight_integer_min": -7,
+  "weight_scale": 0.38634926080703735,
+  "weight_shape_oihw": [
+    8,
+    8,
+    3,
+    3
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "activation_integer_range": [
+    0,
+    11
+  ],
+  "activation_scale": 0.46577975153923035,
+  "activation_words_32_bits": 36,
+  "alias_files_verified": [
+    "input.txt",
+    "weight.txt",
+    "psum.txt"
+  ],
+  "all_intermediates_fit_signed_16_bits": true,
+  "checkpoint_fingerprint_recomputed": false,
+  "evidence_type": "trained_model",
+  "expected_output_words_128_bits": 16,
+  "file_sha256": {
+    "acc_address.txt": "203ec9c8f821fd1a2cb5d6f08cba0fc228a55ff7764e65d21d3ca4026afd5cf6",
+    "activation/activation.txt": "786e137954c8f4d7ad5ba9c2f51cdc03333891eafc2f3f8da9dcaf23a1eac0a2",
+    "input.txt": "786e137954c8f4d7ad5ba9c2f51cdc03333891eafc2f3f8da9dcaf23a1eac0a2",
+    "metadata.json": "1cb30bb28b33cc18231e084d88a01c33968ba53635bae5db07dd10a7da27607e",
+    "output/output_after_relu.txt": "a9c261976daf4c6727ad11c4e073dea437bc992bc1ce11425deb73a74e1d3f83",
+    "output/output_updated.txt": "88247031a730e24254d83641e0893062380248381cadcc7c1a98f5c6f369504d",
+    "psum.txt": "a9c261976daf4c6727ad11c4e073dea437bc992bc1ce11425deb73a74e1d3f83",
+    "tensors.npz": "2d34473f9c6830396952d7c2c4176c47a0759da9539268c2af76798cf7e8b5d5",
+    "verification.json": "1cb30bb28b33cc18231e084d88a01c33968ba53635bae5db07dd10a7da27607e",
+    "weight.txt": "71e45634ff43fb0e5791e548a3f86ffa68b6dfef3953992b5441552b86b5292b",
+    "weights/weight0.txt": "71db315ee3d6ab2eedae2de4dbe85eb96ec230098a33ae702c08a84641df43d0",
+    "weights/weight1.txt": "d51d4e5f29eb771af421d48c1d27095da4dd719022f58e90d5a8aefdd2be3825",
+    "weights/weight2.txt": "188e1979f54e6dc573dc28e449bf45069b4a1fd1ff94d38842dd619c7527b7b6",
+    "weights/weight3.txt": "59c8a6e2b6a580c27a0929afe30d17f77576fd428c02e08fd4934bc3b6873a9d",
+    "weights/weight4.txt": "123bb82f3ce725081c1ed8edc24e9410d123ab73aaa9b2f94b138646b13cb1d2",
+    "weights/weight5.txt": "ab35f6de03e5dd1d583a7befb2ef2c2c1f9ff0b2c5fe5622cb12f4cdf77a7a62",
+    "weights/weight6.txt": "2d53cc7acb9fb19721760d4d9f644a0806d4c874fedd863f0eab713341242266",
+    "weights/weight7.txt": "9fec925907266be66cea77ce4ab6c0d286c0160251f6ed41a959101abab0552d",
+    "weights/weight8.txt": "2ae4b0048999e5a8e0b95f05b6c5a3dbd55c0422d4e8c0494ad8953720e9c163"
+  },
+  "formal_error_lt_1e_3": true,
+  "gather_addresses_verified": 144,
+  "integer_mismatches": 0,
+  "max_abs_reconstruction_error": 4.076379191531032e-06,
+  "pmem_partial_sum_range": [
+    -45,
+    91
+  ],
+  "pmem_words": 324,
+  "post_relu_integer_range": [
+    0,
+    132
+  ],
+  "pre_relu_integer_range": [
+    -88,
+    132
+  ],
+  "recorded_model_sha256": "747dc1546f41df96d02b3b8936d796bc38b11bafba9edbd8713f84c07a39ccad",
+  "sample_dataset_index": 0,
+  "sample_label": 3,
+  "scalar_integer_outputs_verified": 128,
+  "scope": "Independent supplied-vector arithmetic and preserved-reference consistency; no new RTL simulation, checkpoint evaluation, or accuracy measurement",
+  "sfu_intermediate_sum_range": [
+    -88,
+    145
+  ],
+  "status": "PASS",
+  "strict_error_lt_1e_5": true,
+  "weight_integer_range": [
+    -7,
+    7
+  ],
+  "weight_scale": 0.38634926080703735,
+  "weight_words_32_bits": 72
+}

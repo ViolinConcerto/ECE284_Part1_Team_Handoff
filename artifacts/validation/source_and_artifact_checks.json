@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "source_and_test_files_unchanged": true,
+  "source_file_sha256": {
+    "models.py": "6a3954e9ac6f8bf8ed7c00951cb311889e49b05bc99b8bc70e2f8c49ac88ca31",
+    "train.py": "1101943c04ecf2090cfa82c0a5991e2afc322ec6ba1ba320869fddafad1e4a58",
+    "verify_export.py": "2a898e3ab6f7bbf48ba52ce1f6c3edda3854b3bd19494f29b5de73e3b6c67ef9",
+    "requirements.txt": "a9388ef270627add053ff50be638a2e01757c796a280b1376e85c08af2c27cb9",
+    "tests/test_checkpoint_compat.py": "cf84e9c969060d9a5e4eb891f92f4ea6af55a063c9d37029a2bcfba7322690fe",
+    "tests/test_part1.py": "4b70a30ca0cd7b682287c4199a6ceb6fca1b0de751d368537ed40dc8f48ca84c",
+    "tests/test_training_resume.py": "0130d150b68ad77d06d38545fbceb6e498bd9c4464ab1e91c0fda94f5e2da4f3"
+  },
+  "best_checkpoint_byte_identical_to_uploaded_run": true,
+  "all_vector_files_byte_identical_to_uploaded_run": true,
+  "all_original_run_records_byte_identical_to_uploaded_run": true,
+  "history_epochs": 200,
+  "best_epoch": 183,
+  "recorded_accuracy_pct": 90.94,
+  "best_model_fingerprint_matches_vectors": true,
+  "all_packaged_files_trackable_under_gitignore": true,
+  "each_file_below_github_100_mib_git_limit": true,
+  "python_source_syntax_check": "PASS",
+  "last_checkpoint_included": false,
+  "new_full_dataset_evaluation_performed": false,
+  "new_rtl_simulation_performed": false,
+  "negative_control_expected_and_observed_exit_code": 1,
+  "scope_note": "Independent artifact consistency and arithmetic checks; original full-test evaluation is preserved in uploaded results/checkpoint/notebook records."
+}
