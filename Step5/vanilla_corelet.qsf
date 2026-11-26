@@ -8,12 +8,12 @@ set_global_assignment -name SDC_FILE vanilla_corelet.sdc
 
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/mac.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/homework/mac_tile.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/homework/mac_row.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/mac_array.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/homework/l0.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/homework/ofifo.v
+set_global_assignment -name SYSTEMVERILOG_FILE fpga_src/mac_row.v
+set_global_assignment -name SYSTEMVERILOG_FILE fpga_src/mac_array.v
+set_global_assignment -name SYSTEMVERILOG_FILE fpga_src/l0.v
+set_global_assignment -name SYSTEMVERILOG_FILE fpga_src/ofifo.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/fifo_depth64.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/fifo_mux_2_1.v
+set_global_assignment -name SYSTEMVERILOG_FILE fpga_src/fifo_mux_2_1.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/fifo_mux_8_1.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/fifo_mux_16_1.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/rtl/sfp.v
@@ -21,5 +21,27 @@ set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/rtl/corelet.v
 
 # No VCD/SAF overrides: unspecified input data activity is 20% of its clock rate.
 set_global_assignment -name POWER_USE_INPUT_FILES OFF
-set_global_assignment -name POWER_DEFAULT_INPUT_IO_TOGGLE_RATE "20%"
+set_global_assignment -name POWER_DEFAULT_INPUT_IO_TOGGLE_RATE 20%
 set_global_assignment -name POWER_REPORT_SIGNAL_ACTIVITY ON
+
+set_global_assignment -name LAST_QUARTUS_VERSION "19.1.0 SP0.02std Lite Edition"
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+# Quartus needs explicit generate/endgenerate: patched copies of 5 files live in fpga_src/ (Step2 sim sources unchanged).
+# corelet has 588 ports > 475 user I/O: outputs are virtual pins, inputs stay real so the 20% input toggle rate applies.
+set_instance_assignment -name VIRTUAL_PIN ON -to ofifo_out[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to sfp_out[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to pmem_write_data[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to l0_o_full
+set_instance_assignment -name VIRTUAL_PIN ON -to l0_o_ready
+set_instance_assignment -name VIRTUAL_PIN ON -to ofifo_o_full
+set_instance_assignment -name VIRTUAL_PIN ON -to ofifo_o_ready
+set_instance_assignment -name VIRTUAL_PIN ON -to ofifo_valid
+
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
