@@ -1,0 +1,781 @@
+{
+  "case": "fifo_capacity",
+  "status": "PASS",
+  "simulator": "iverilog",
+  "repeats": 2,
+  "output_words_per_job": 36,
+  "scalar_outputs_per_job": 288,
+  "scalar_mismatches": 0,
+  "raw_words_per_job": 576,
+  "cycles": [
+    {
+      "job": "0",
+      "stage": "1",
+      "kernel": "-1",
+      "start_cycle": "20",
+      "end_cycle": "156",
+      "cycles": "136"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "0",
+      "start_cycle": "175",
+      "end_cycle": "217",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "0",
+      "start_cycle": "217",
+      "end_cycle": "345",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "0",
+      "start_cycle": "345",
+      "end_cycle": "427",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "0",
+      "start_cycle": "427",
+      "end_cycle": "555",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "0",
+      "start_cycle": "555",
+      "end_cycle": "619",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "1",
+      "start_cycle": "638",
+      "end_cycle": "680",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "1",
+      "start_cycle": "680",
+      "end_cycle": "808",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "1",
+      "start_cycle": "808",
+      "end_cycle": "890",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "1",
+      "start_cycle": "890",
+      "end_cycle": "1018",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "1",
+      "start_cycle": "1018",
+      "end_cycle": "1082",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "2",
+      "start_cycle": "1101",
+      "end_cycle": "1143",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "2",
+      "start_cycle": "1143",
+      "end_cycle": "1271",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "2",
+      "start_cycle": "1271",
+      "end_cycle": "1353",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "2",
+      "start_cycle": "1353",
+      "end_cycle": "1481",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "2",
+      "start_cycle": "1481",
+      "end_cycle": "1545",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "3",
+      "start_cycle": "1564",
+      "end_cycle": "1606",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "3",
+      "start_cycle": "1606",
+      "end_cycle": "1734",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "3",
+      "start_cycle": "1734",
+      "end_cycle": "1816",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "3",
+      "start_cycle": "1816",
+      "end_cycle": "1944",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "3",
+      "start_cycle": "1944",
+      "end_cycle": "2008",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "4",
+      "start_cycle": "2027",
+      "end_cycle": "2069",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "4",
+      "start_cycle": "2069",
+      "end_cycle": "2197",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "4",
+      "start_cycle": "2197",
+      "end_cycle": "2279",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "4",
+      "start_cycle": "2279",
+      "end_cycle": "2407",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "4",
+      "start_cycle": "2407",
+      "end_cycle": "2471",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "5",
+      "start_cycle": "2490",
+      "end_cycle": "2532",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "5",
+      "start_cycle": "2532",
+      "end_cycle": "2660",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "5",
+      "start_cycle": "2660",
+      "end_cycle": "2742",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "5",
+      "start_cycle": "2742",
+      "end_cycle": "2870",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "5",
+      "start_cycle": "2870",
+      "end_cycle": "2934",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "6",
+      "start_cycle": "2953",
+      "end_cycle": "2995",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "6",
+      "start_cycle": "2995",
+      "end_cycle": "3123",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "6",
+      "start_cycle": "3123",
+      "end_cycle": "3205",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "6",
+      "start_cycle": "3205",
+      "end_cycle": "3333",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "6",
+      "start_cycle": "3333",
+      "end_cycle": "3397",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "7",
+      "start_cycle": "3416",
+      "end_cycle": "3458",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "7",
+      "start_cycle": "3458",
+      "end_cycle": "3586",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "7",
+      "start_cycle": "3586",
+      "end_cycle": "3668",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "7",
+      "start_cycle": "3668",
+      "end_cycle": "3796",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "7",
+      "start_cycle": "3796",
+      "end_cycle": "3860",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "8",
+      "start_cycle": "3879",
+      "end_cycle": "3921",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "8",
+      "start_cycle": "3921",
+      "end_cycle": "4049",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "8",
+      "start_cycle": "4049",
+      "end_cycle": "4131",
+      "cycles": "82"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "8",
+      "start_cycle": "4131",
+      "end_cycle": "4259",
+      "cycles": "128"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "8",
+      "start_cycle": "4259",
+      "end_cycle": "4323",
+      "cycles": "64"
+    },
+    {
+      "job": "0",
+      "stage": "6",
+      "kernel": "-1",
+      "start_cycle": "4323",
+      "end_cycle": "5079",
+      "cycles": "756"
+    },
+    {
+      "job": "0",
+      "stage": "7",
+      "kernel": "-1",
+      "start_cycle": "5079",
+      "end_cycle": "5295",
+      "cycles": "216"
+    },
+    {
+      "job": "1",
+      "stage": "1",
+      "kernel": "-1",
+      "start_cycle": "5350",
+      "end_cycle": "5486",
+      "cycles": "136"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "0",
+      "start_cycle": "5505",
+      "end_cycle": "5547",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "0",
+      "start_cycle": "5547",
+      "end_cycle": "5675",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "0",
+      "start_cycle": "5675",
+      "end_cycle": "5757",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "0",
+      "start_cycle": "5757",
+      "end_cycle": "5885",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "0",
+      "start_cycle": "5885",
+      "end_cycle": "5949",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "1",
+      "start_cycle": "5968",
+      "end_cycle": "6010",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "1",
+      "start_cycle": "6010",
+      "end_cycle": "6138",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "1",
+      "start_cycle": "6138",
+      "end_cycle": "6220",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "1",
+      "start_cycle": "6220",
+      "end_cycle": "6348",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "1",
+      "start_cycle": "6348",
+      "end_cycle": "6412",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "2",
+      "start_cycle": "6431",
+      "end_cycle": "6473",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "2",
+      "start_cycle": "6473",
+      "end_cycle": "6601",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "2",
+      "start_cycle": "6601",
+      "end_cycle": "6683",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "2",
+      "start_cycle": "6683",
+      "end_cycle": "6811",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "2",
+      "start_cycle": "6811",
+      "end_cycle": "6875",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "3",
+      "start_cycle": "6894",
+      "end_cycle": "6936",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "3",
+      "start_cycle": "6936",
+      "end_cycle": "7064",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "3",
+      "start_cycle": "7064",
+      "end_cycle": "7146",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "3",
+      "start_cycle": "7146",
+      "end_cycle": "7274",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "3",
+      "start_cycle": "7274",
+      "end_cycle": "7338",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "4",
+      "start_cycle": "7357",
+      "end_cycle": "7399",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "4",
+      "start_cycle": "7399",
+      "end_cycle": "7527",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "4",
+      "start_cycle": "7527",
+      "end_cycle": "7609",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "4",
+      "start_cycle": "7609",
+      "end_cycle": "7737",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "4",
+      "start_cycle": "7737",
+      "end_cycle": "7801",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "5",
+      "start_cycle": "7820",
+      "end_cycle": "7862",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "5",
+      "start_cycle": "7862",
+      "end_cycle": "7990",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "5",
+      "start_cycle": "7990",
+      "end_cycle": "8072",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "5",
+      "start_cycle": "8072",
+      "end_cycle": "8200",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "5",
+      "start_cycle": "8200",
+      "end_cycle": "8264",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "6",
+      "start_cycle": "8283",
+      "end_cycle": "8325",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "6",
+      "start_cycle": "8325",
+      "end_cycle": "8453",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "6",
+      "start_cycle": "8453",
+      "end_cycle": "8535",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "6",
+      "start_cycle": "8535",
+      "end_cycle": "8663",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "6",
+      "start_cycle": "8663",
+      "end_cycle": "8727",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "7",
+      "start_cycle": "8746",
+      "end_cycle": "8788",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "7",
+      "start_cycle": "8788",
+      "end_cycle": "8916",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "7",
+      "start_cycle": "8916",
+      "end_cycle": "8998",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "7",
+      "start_cycle": "8998",
+      "end_cycle": "9126",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "7",
+      "start_cycle": "9126",
+      "end_cycle": "9190",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "8",
+      "start_cycle": "9209",
+      "end_cycle": "9251",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "8",
+      "start_cycle": "9251",
+      "end_cycle": "9379",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "8",
+      "start_cycle": "9379",
+      "end_cycle": "9461",
+      "cycles": "82"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "8",
+      "start_cycle": "9461",
+      "end_cycle": "9589",
+      "cycles": "128"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "8",
+      "start_cycle": "9589",
+      "end_cycle": "9653",
+      "cycles": "64"
+    },
+    {
+      "job": "1",
+      "stage": "6",
+      "kernel": "-1",
+      "start_cycle": "9653",
+      "end_cycle": "10409",
+      "cycles": "756"
+    },
+    {
+      "job": "1",
+      "stage": "7",
+      "kernel": "-1",
+      "start_cycle": "10409",
+      "end_cycle": "10625",
+      "cycles": "216"
+    }
+  ],
+  "golden_source": "/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/build/generated_cases/fifo_capacity/psum.txt"
+}

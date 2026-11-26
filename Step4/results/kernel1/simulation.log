@@ -1,0 +1,21 @@
+VCD info: dumpfile core_tb.vcd opened for output.
+job=0 stage=1 kernel=-1 cycle=20
+job=0 stage=2 kernel=0 cycle=56
+job=0 stage=3 kernel=0 cycle=98
+job=0 stage=4 kernel=0 cycle=116
+job=0 stage=5 kernel=0 cycle=143
+job=0 stage=50 kernel=0 cycle=161
+job=0 stage=6 kernel=-1 cycle=170
+job=0 stage=7 kernel=-1 cycle=215
+PASS job=0: 9 SRAM output words / 72 scalars
+job=1 stage=1 kernel=-1 cycle=297
+job=1 stage=2 kernel=0 cycle=333
+job=1 stage=3 kernel=0 cycle=375
+job=1 stage=4 kernel=0 cycle=393
+job=1 stage=5 kernel=0 cycle=420
+job=1 stage=50 kernel=0 cycle=438
+job=1 stage=6 kernel=-1 cycle=447
+job=1 stage=7 kernel=-1 cycle=492
+PASS job=1: 9 SRAM output words / 72 scalars
+PASS checks: 90 word comparisons / 720 scalar comparisons
+PASS Step3: seven stages, signed/ReLU SRAM writeback, 2 jobs, total_cycles=555

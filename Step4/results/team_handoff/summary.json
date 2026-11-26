@@ -1,0 +1,781 @@
+{
+  "case": "team_handoff",
+  "status": "PASS",
+  "simulator": "iverilog",
+  "repeats": 2,
+  "output_words_per_job": 16,
+  "scalar_outputs_per_job": 128,
+  "scalar_mismatches": 0,
+  "raw_words_per_job": 324,
+  "cycles": [
+    {
+      "job": "0",
+      "stage": "1",
+      "kernel": "-1",
+      "start_cycle": "20",
+      "end_cycle": "128",
+      "cycles": "108"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "0",
+      "start_cycle": "147",
+      "end_cycle": "189",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "0",
+      "start_cycle": "189",
+      "end_cycle": "261",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "0",
+      "start_cycle": "261",
+      "end_cycle": "315",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "0",
+      "start_cycle": "315",
+      "end_cycle": "387",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "0",
+      "start_cycle": "387",
+      "end_cycle": "423",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "1",
+      "start_cycle": "442",
+      "end_cycle": "484",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "1",
+      "start_cycle": "484",
+      "end_cycle": "556",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "1",
+      "start_cycle": "556",
+      "end_cycle": "610",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "1",
+      "start_cycle": "610",
+      "end_cycle": "682",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "1",
+      "start_cycle": "682",
+      "end_cycle": "718",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "2",
+      "start_cycle": "737",
+      "end_cycle": "779",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "2",
+      "start_cycle": "779",
+      "end_cycle": "851",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "2",
+      "start_cycle": "851",
+      "end_cycle": "905",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "2",
+      "start_cycle": "905",
+      "end_cycle": "977",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "2",
+      "start_cycle": "977",
+      "end_cycle": "1013",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "3",
+      "start_cycle": "1032",
+      "end_cycle": "1074",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "3",
+      "start_cycle": "1074",
+      "end_cycle": "1146",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "3",
+      "start_cycle": "1146",
+      "end_cycle": "1200",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "3",
+      "start_cycle": "1200",
+      "end_cycle": "1272",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "3",
+      "start_cycle": "1272",
+      "end_cycle": "1308",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "4",
+      "start_cycle": "1327",
+      "end_cycle": "1369",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "4",
+      "start_cycle": "1369",
+      "end_cycle": "1441",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "4",
+      "start_cycle": "1441",
+      "end_cycle": "1495",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "4",
+      "start_cycle": "1495",
+      "end_cycle": "1567",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "4",
+      "start_cycle": "1567",
+      "end_cycle": "1603",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "5",
+      "start_cycle": "1622",
+      "end_cycle": "1664",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "5",
+      "start_cycle": "1664",
+      "end_cycle": "1736",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "5",
+      "start_cycle": "1736",
+      "end_cycle": "1790",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "5",
+      "start_cycle": "1790",
+      "end_cycle": "1862",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "5",
+      "start_cycle": "1862",
+      "end_cycle": "1898",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "6",
+      "start_cycle": "1917",
+      "end_cycle": "1959",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "6",
+      "start_cycle": "1959",
+      "end_cycle": "2031",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "6",
+      "start_cycle": "2031",
+      "end_cycle": "2085",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "6",
+      "start_cycle": "2085",
+      "end_cycle": "2157",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "6",
+      "start_cycle": "2157",
+      "end_cycle": "2193",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "7",
+      "start_cycle": "2212",
+      "end_cycle": "2254",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "7",
+      "start_cycle": "2254",
+      "end_cycle": "2326",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "7",
+      "start_cycle": "2326",
+      "end_cycle": "2380",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "7",
+      "start_cycle": "2380",
+      "end_cycle": "2452",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "7",
+      "start_cycle": "2452",
+      "end_cycle": "2488",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "8",
+      "start_cycle": "2507",
+      "end_cycle": "2549",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "8",
+      "start_cycle": "2549",
+      "end_cycle": "2621",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "8",
+      "start_cycle": "2621",
+      "end_cycle": "2675",
+      "cycles": "54"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "8",
+      "start_cycle": "2675",
+      "end_cycle": "2747",
+      "cycles": "72"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "8",
+      "start_cycle": "2747",
+      "end_cycle": "2783",
+      "cycles": "36"
+    },
+    {
+      "job": "0",
+      "stage": "6",
+      "kernel": "-1",
+      "start_cycle": "2783",
+      "end_cycle": "3119",
+      "cycles": "336"
+    },
+    {
+      "job": "0",
+      "stage": "7",
+      "kernel": "-1",
+      "start_cycle": "3119",
+      "end_cycle": "3215",
+      "cycles": "96"
+    },
+    {
+      "job": "1",
+      "stage": "1",
+      "kernel": "-1",
+      "start_cycle": "3250",
+      "end_cycle": "3358",
+      "cycles": "108"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "0",
+      "start_cycle": "3377",
+      "end_cycle": "3419",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "0",
+      "start_cycle": "3419",
+      "end_cycle": "3491",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "0",
+      "start_cycle": "3491",
+      "end_cycle": "3545",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "0",
+      "start_cycle": "3545",
+      "end_cycle": "3617",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "0",
+      "start_cycle": "3617",
+      "end_cycle": "3653",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "1",
+      "start_cycle": "3672",
+      "end_cycle": "3714",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "1",
+      "start_cycle": "3714",
+      "end_cycle": "3786",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "1",
+      "start_cycle": "3786",
+      "end_cycle": "3840",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "1",
+      "start_cycle": "3840",
+      "end_cycle": "3912",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "1",
+      "start_cycle": "3912",
+      "end_cycle": "3948",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "2",
+      "start_cycle": "3967",
+      "end_cycle": "4009",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "2",
+      "start_cycle": "4009",
+      "end_cycle": "4081",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "2",
+      "start_cycle": "4081",
+      "end_cycle": "4135",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "2",
+      "start_cycle": "4135",
+      "end_cycle": "4207",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "2",
+      "start_cycle": "4207",
+      "end_cycle": "4243",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "3",
+      "start_cycle": "4262",
+      "end_cycle": "4304",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "3",
+      "start_cycle": "4304",
+      "end_cycle": "4376",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "3",
+      "start_cycle": "4376",
+      "end_cycle": "4430",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "3",
+      "start_cycle": "4430",
+      "end_cycle": "4502",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "3",
+      "start_cycle": "4502",
+      "end_cycle": "4538",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "4",
+      "start_cycle": "4557",
+      "end_cycle": "4599",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "4",
+      "start_cycle": "4599",
+      "end_cycle": "4671",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "4",
+      "start_cycle": "4671",
+      "end_cycle": "4725",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "4",
+      "start_cycle": "4725",
+      "end_cycle": "4797",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "4",
+      "start_cycle": "4797",
+      "end_cycle": "4833",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "5",
+      "start_cycle": "4852",
+      "end_cycle": "4894",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "5",
+      "start_cycle": "4894",
+      "end_cycle": "4966",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "5",
+      "start_cycle": "4966",
+      "end_cycle": "5020",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "5",
+      "start_cycle": "5020",
+      "end_cycle": "5092",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "5",
+      "start_cycle": "5092",
+      "end_cycle": "5128",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "6",
+      "start_cycle": "5147",
+      "end_cycle": "5189",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "6",
+      "start_cycle": "5189",
+      "end_cycle": "5261",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "6",
+      "start_cycle": "5261",
+      "end_cycle": "5315",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "6",
+      "start_cycle": "5315",
+      "end_cycle": "5387",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "6",
+      "start_cycle": "5387",
+      "end_cycle": "5423",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "7",
+      "start_cycle": "5442",
+      "end_cycle": "5484",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "7",
+      "start_cycle": "5484",
+      "end_cycle": "5556",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "7",
+      "start_cycle": "5556",
+      "end_cycle": "5610",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "7",
+      "start_cycle": "5610",
+      "end_cycle": "5682",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "7",
+      "start_cycle": "5682",
+      "end_cycle": "5718",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "8",
+      "start_cycle": "5737",
+      "end_cycle": "5779",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "8",
+      "start_cycle": "5779",
+      "end_cycle": "5851",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "8",
+      "start_cycle": "5851",
+      "end_cycle": "5905",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "8",
+      "start_cycle": "5905",
+      "end_cycle": "5977",
+      "cycles": "72"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "8",
+      "start_cycle": "5977",
+      "end_cycle": "6013",
+      "cycles": "36"
+    },
+    {
+      "job": "1",
+      "stage": "6",
+      "kernel": "-1",
+      "start_cycle": "6013",
+      "end_cycle": "6349",
+      "cycles": "336"
+    },
+    {
+      "job": "1",
+      "stage": "7",
+      "kernel": "-1",
+      "start_cycle": "6349",
+      "end_cycle": "6445",
+      "cycles": "96"
+    }
+  ],
+  "golden_source": "/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/build/inputs/team_handoff/psum.txt"
+}

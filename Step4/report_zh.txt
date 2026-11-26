@@ -1,0 +1,58 @@
+Part 1 Step 4：RTL 功能验证报告
+
+1. 验证目标与实现版本
+本阶段使用 Step 1 训练模型导出的输入、权重和期望输出，对 Step 2 集成的 RTL 进行端到端功能验证。通过 Step 3 的 testbench 驱动七个处理阶段，检查实际 SRAM 读回结果是否与 psum.txt 逐元素一致。
+项目基于 handoff/step2-step3 分支，下载版本 commit：1ae89946cc8f7de32e5a6278d6b9c6469980905d。仿真环境为 Icarus Verilog 10.1，数据准备使用 Python 3.10.9。实际编译、仿真日期为 2026 年 11 月 25 日。
+本次使用队友已有 Step3/core_tb.v，增加旧 Icarus 的文件名格式化兼容、X/Z 数据检查和比较次数检查；Step 2 RTL、七阶段调度和参考数据未修改。
+
+2. 使用的输入与参考结果
+主验证使用 artifacts/vectors/ 中 Step 1 已冻结的真实模型向量，来源为 CIFAR-10 测试样本 0 在 VGG16 features.27 层的输入和该层训练权重。
+该层包含 8 个输入通道、8 个输出通道，卷积核为 3×3，stride=1、padding=1，无 bias；所选卷积后接 ReLU，无 BN 插入该卷积与 ReLU 之间。
+原始激活尺寸为 1×8×4×4，补零后为 8×6×6；输出为 1×8×4×4。激活使用 unsigned 4-bit，权重使用 signed 4-bit 二进制补码，部分和使用 signed 16-bit。
+input.txt：36 个 32-bit 字，每字打包同一空间位置的 8 个激活通道，包含补零边界。
+weight.txt：72 个 32-bit 字，即 9 个 kernel 位置×8 个输出通道，每字包含 8 个输入通道权重。
+psum.txt：16 个 128-bit 字，每字包含 8 个 16-bit 输出值，共 128 个最终输出标量，为完整卷积累加后再 ReLU 的结果。
+所有文件 channel 0 均在最低位，空间位置按行优先排列。import_handoff.py 检查原始文件头部、位宽、数量、别名一致性及来源哈希，再生成无头部仿真输入。
+最终整数参考满足 P[o,y,x]=max(0,Σc,ky,kx A_pad[c,y+ky,x+kx]×W[o,c,ky,kx])。仿真比较整数码，不乘 activation/weight scale，不使用浮点误差容限。
+另外独立重算 ReLU 前后整数结果，并核对 144 个 SFU gather 地址，避免直接复制未检查的 golden。
+
+3. 验证流程
+（1）通过 testbench 的 core 端口，将激活与九组 kernel 权重写入 L1 SRAM。
+（2）将当前 kernel 位置的权重经 L0 加载到 8×8 PE 阵列。
+（3）从 L1 SRAM 读取补零后的激活并写入 L0。
+（4）执行阵列计算并排空流水线。
+（5）将 OFIFO 输出写入 psum SRAM，并读回核对各 kernel 的部分和。步骤（2）至（5）遍历九个 kernel 位置。
+（6）按输出空间坐标读取对应的九个 kernel 部分和，使用 SFU 累加，核对 ReLU 前结果并写回、读回 SRAM。
+（7）对完整累加结果执行 ReLU，写回 SRAM，读回并导出 result_0.txt / result_1.txt，与 psum.txt 比较。
+SRAM 读地址与 L0 捕获分拍处理，OFIFO 的寄存读延迟也由 testbench 显式等待。检查同时覆盖缺失/多余输出、L0 容量和冲突的 SFU 控制。
+主样本重复运行两次，以检查 reset、FIFO 指针和 SRAM 读写流程的重复执行；这两次使用同一个样本，不代表两张不同图片。
+
+4. 实测结果
+主样本 team_handoff：每次最终比较 16 个字、128 个标量；两次共 32 个字、256 个最终标量，mismatch=0，最大绝对整数误差=0。
+九个 kernel 部分和：每次检查 9×36=324 个 128-bit 字，两次共 648 个字、5184 个标量，全部匹配。
+SFU 单元测试：signed 累加、保持、清零、复位和 ReLU，PASS。
+额外回归均重复两次：
+  signed_limits：激活/权重数值边界及负累加值，256 个最终标量，PASS，错误 0。
+  rectangle：3×5 非方形输入与地址映射，240 个最终标量，PASS，错误 0。
+  kernel1：1×1 卷积，144 个最终标量，PASS，错误 0。
+  fifo_capacity：补零后 8×8、64 字 FIFO 容量边界，576 个最终标量，PASS，错误 0。
+全部五组共比较 1472 个最终输出标量，错误 0。额外四组为合成测试，用于补充边界覆盖，不能计为真实模型样本。
+编译未出现错误；课程 RTL 中部分模块未声明 timescale，因此存在 timescale warning。仿真正常完成。本次未执行 negative-control test。
+
+5. 结论与范围
+本次验证在冻结真实样本及四组合成回归范围内，通过完整七阶段处理得到了与期望文件逐元素一致的 SRAM 输出，满足 Part 1 Step 4 对刺激文件、结果导出及零验证错误的要求。
+Step 1 中的 90.94% 分类准确率和 4.076379191531032e-6 软件恢复误差为原训练阶段记录；本次重新检查了导出向量，但没有重新训练、重新测完整数据集准确率或重新执行模型 checkpoint。Step 4 的整数零误差与 Step 1 的浮点恢复误差属于不同验证指标。
+本次属于 RTL 功能仿真，不包含 Part 1 Step 5 的 Quartus 综合、布局布线、Fmax 或功耗测量。
+
+6. 复现及证据
+安装 Icarus Verilog 并确保 iverilog/vvp 在 PATH 后，从仓库根目录运行：
+  python3 Step3/run.py --sim iverilog --regress --waves
+本机旧版 Icarus 使用本地启动包装器定位后端和 VPI 库；这不改变 RTL、刺激或控制时序。实际工具版本及修改后源码哈希记录在 results/verification.json。
+正常安装的 Icarus 使用上述命令即可。若使用 Vivado，可运行：
+  python Step3/run.py --sim vivado --vivado-bin <Vivado的bin目录> --regress --waves
+Vivado 是可选运行方法，本次结果来自 Icarus。
+原始输入、权重和参考输出沿用仓库 artifacts/vectors/。重新运行时，Step3/build/inputs/team_handoff/ 自动生成本次验证所用的规范化文件；其输入为36个字、权重为72个字、最终golden为16个字。增量上传包不重复携带这些输入文件。
+Step4/results/team_handoff/ 保存真实样本编译日志、仿真日志、两个输出文件、summary.json 和 cycles.csv。
+Step4/results/其余案例目录保存补充回归记录；sfp_unit/保存 SFU 单元测试日志。
+Step4/results/comparison.csv 保存全部最终逐元素比较；verification.json 保存工具、案例、版本及源码哈希；testbench_changes.patch 保存相对于下载版本的 testbench 改动。
+波形可在 Step3/build/<case>/core_tb.vcd 查看；由于文件较大，不包含在压缩交付包中。cycles.csv 是 testbench 阶段计数，不能当作 FPGA 运行频率或性能结果。

@@ -1,0 +1,17 @@
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2: warning: Some modules have no timescale. This may cause
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        : confusing timing results.  Affected modules are:
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module core declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/rtl/core.v:2
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module corelet declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/rtl/corelet.v:2
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module fifo_depth64 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/fifo_depth64.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module fifo_mux_16_1 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/fifo_mux_16_1.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module fifo_mux_2_1 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/fifo_mux_2_1.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module fifo_mux_8_1 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/fifo_mux_8_1.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module l0 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/homework/l0.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module mac declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/mac.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module mac_array declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/mac_array.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module mac_row declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/homework/mac_row.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module mac_tile declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/homework/mac_tile.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module ofifo declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/homework/ofifo.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module sfp declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/rtl/sfp.v:2
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module sram_128b_w2048 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/sram_128b_w2048.v:3
+/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/core_tb.v:2:        :   -- module sram_32b_w2048 declared here: /Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step2/course/sram_32b_w2048.v:3
