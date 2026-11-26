@@ -1,0 +1,14 @@
+rtl/mac.v
+rtl/mac_tile.v
+rtl/mac_row.v
+rtl/mac_array.v
+rtl/l0.v
+rtl/ofifo.v
+rtl/fifo_depth64.v
+rtl/fifo_mux_2_1.v
+rtl/fifo_mux_8_1.v
+rtl/fifo_mux_16_1.v
+rtl/sfp.v
+rtl/video_sram.v
+rtl/corelet.v
+rtl/core.v

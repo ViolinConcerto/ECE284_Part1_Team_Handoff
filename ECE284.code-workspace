@@ -1,0 +1,13 @@
+{
+  "folders": [{"name": "ECE284 Team", "path": "."}],
+  "settings": {
+    "files.exclude": {
+      "**/build": true,
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "Step5/db": true,
+      "Step5/incremental_db": true,
+      "Step5/output_files": true
+    }
+  }
+}

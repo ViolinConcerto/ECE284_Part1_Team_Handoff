@@ -1,0 +1,12 @@
+/.gitattributes text eol=lf
+/.gitignore text eol=lf
+/README.md text eol=lf
+/ECE284.code-workspace text eol=lf
+/Step2/** text=auto eol=lf
+/Step2/course/*.v -text
+/Step2/homework/*.v -text
+/Step3/** text=auto eol=lf
+/Step5/** text=auto eol=lf
+/Part2/** text=auto eol=lf
+/Part2/results/cycle_comparison.svg -diff
+/run_all.py text eol=lf

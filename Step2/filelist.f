@@ -1,0 +1,15 @@
+course/mac.v
+homework/mac_tile.v
+homework/mac_row.v
+course/mac_array.v
+homework/l0.v
+homework/ofifo.v
+course/fifo_depth64.v
+course/fifo_mux_2_1.v
+course/fifo_mux_8_1.v
+course/fifo_mux_16_1.v
+course/sram_32b_w2048.v
+course/sram_128b_w2048.v
+rtl/sfp.v
+rtl/corelet.v
+rtl/core.v

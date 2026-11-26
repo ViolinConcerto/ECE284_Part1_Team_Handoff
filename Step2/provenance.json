@@ -1,0 +1,105 @@
+{
+  "course_repository": "https://github.com/VVIPLab/ece284fa26",
+  "course_commit": "8f7df9b3e73b65d373c5e4bd738fd7162f41d046",
+  "course_commit_date_utc": "2026-11-24T13:55:58Z",
+  "hw6_archive_sha256": "db046c58710bb547d90708f3a3cbe9ff5ea0af97f2462aa2ebce92daf351498a",
+  "files": [
+    {
+      "path": "course/mac.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk5/hw1_2/verilog/mac.v",
+      "sha256": "25bbe8bc07e7223217345d489aeaf35245522c6b7fdd104dab2ad625d8165aa8"
+    },
+    {
+      "path": "course/mac_array.v",
+      "origin": "course_unmodified",
+      "repository_path": "project/mac_array.v",
+      "sha256": "bd44ada10ddbecdac47f0263ae8cf8dae126274f91f46cff502a44f1bc6078d3"
+    },
+    {
+      "path": "course/fifo_depth64.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk6/hw2/verilog/fifo_depth64.v",
+      "sha256": "ea152bbd735ac0c890b615123627663ccc9de6712042d873c3f862b6cdf82797"
+    },
+    {
+      "path": "course/fifo_mux_2_1.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk6/hw2/verilog/fifo_mux_2_1.v",
+      "sha256": "b9455a15534946e627e1c2f0cee36b633d73a4a7023693d6ca5bf90a9598fe44"
+    },
+    {
+      "path": "course/fifo_mux_8_1.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk6/hw2/verilog/fifo_mux_8_1.v",
+      "sha256": "9698092362027358433c50f607404c50433691b97505458c35a22eeb2783b454"
+    },
+    {
+      "path": "course/fifo_mux_16_1.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk6/hw2/verilog/fifo_mux_16_1.v",
+      "sha256": "7fdbda22c204fbc0dfde67c8754432f0b9430742de70bc8352865e7e987156de"
+    },
+    {
+      "path": "course/sram_32b_w2048.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk7/hw1/verilog/sram_32b_w2048.v",
+      "sha256": "bbb4d499b22c08f470498b1ee23ac6092eaa37a2032f772bde497047271d4aad"
+    },
+    {
+      "path": "course/sram_128b_w2048.v",
+      "origin": "course_unmodified",
+      "repository_path": "hardware/wk7/example/verilog/sram_128b_w2048.v",
+      "sha256": "80e1f5bc91cc888b3c511d3b83f7cabd95f1d0d747cfe9fe2b4275c7bbf023d5"
+    },
+    {
+      "path": "homework/mac_tile.v",
+      "origin": "completed_2026_homework",
+      "source": "D:\\Documents\\UCSD\\ECE284\\Homework6\\HW6_submission\\HW6_Zuoming_Niu.zip",
+      "archive_member": "hw1_2/verilog/mac_tile.v",
+      "sha256": "00bad7f232c37bf64e379dc1de610978a620c46fedef1653cd3bb4276f363404"
+    },
+    {
+      "path": "homework/mac_row.v",
+      "origin": "completed_2026_homework",
+      "source": "D:\\Documents\\UCSD\\ECE284\\Homework6\\HW6_submission\\HW6_Zuoming_Niu.zip",
+      "archive_member": "hw1_2/verilog/mac_row.v",
+      "sha256": "5d7e2db092df640235bfb949ab8f3da10ff762d1eb30bc5df9e93912de23d8fc"
+    },
+    {
+      "path": "homework/l0.v",
+      "origin": "completed_2026_homework",
+      "source": "Homework7/src/l0.v",
+      "sha256": "8238b862f9cca1e145a036c0694739d0374c5e02c427e0c843086b37f9b98824"
+    },
+    {
+      "path": "homework/ofifo.v",
+      "origin": "completed_2026_homework",
+      "source": "Homework7/src/ofifo.v",
+      "sha256": "71347fd9c89a78f47a769340cf033ac5cfc9c1266076b813fa7d7048d13e1827"
+    },
+    {
+      "path": "rtl/core.v",
+      "origin": "new_step2_implementation",
+      "sha256": "a4bc53bc381fc5419ea5b1b4065e1fa65a4d6d784f624c5fdf8ab17a31eb1214"
+    },
+    {
+      "path": "rtl/corelet.v",
+      "origin": "new_step2_implementation",
+      "sha256": "8a5d0ed98c9165e2fb404a780aa017ac5b04515baa06935924d3a672fdb62efa"
+    },
+    {
+      "path": "rtl/sfp.v",
+      "origin": "new_step2_implementation",
+      "sha256": "21d0cdbd053b878d5c28ed379a3be563c8ddfb88df5ba49421187faf2045cc06"
+    }
+  ],
+  "notes": [
+    "Official complete modules are exact byte copies; original attribution is preserved.",
+    "Course PE/row/L0/OFIFO are incomplete templates; completed local 2026 homework modules fill these roles.",
+    "core, corelet and SFU are new implementations of the frozen vanilla Step3 port/timing contract.",
+    "The official project array is used as supplied: 8x8 baseline; north partial sums start at zero and its instruction pipeline is flushed by the testbench reset interval.",
+    "No 2024 wrapper, SFU or RTL file was copied into this Step2 implementation.",
+    "SRAMs retain contents over reset; FIFOs preserve 64-word capacity and the existing registered OFIFO read delay."
+  ]
+}
