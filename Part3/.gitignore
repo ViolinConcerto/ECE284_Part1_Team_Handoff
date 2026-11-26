@@ -1,0 +1,5 @@
+build/
+*.vcd
+__pycache__/
+/cases/team_handoff/
+

@@ -1,5 +1,7 @@
 # ECE284 Part1: trained W4A4 VGG16 and RTL handoff
 
+This checkout also includes the team's vanilla and differential RTL in [`Part3/`](Part3/HANDOFF.md). Start there for the simulation commands, local Canvas inputs, and Quartus handoff. Both RTL workloads use the frozen vectors in this repository.
+
 This repository contains the Part1 code, completed training evidence, original best checkpoint and frozen hardware vectors for the team's later project stages. Read **[HANDOFF.md](HANDOFF.md)** before integrating the vectors into RTL.
 
 | Result | Value |

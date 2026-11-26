@@ -1,0 +1,26 @@
+{
+  "repository": "https://github.com/VVIPLab/ece284fa26",
+  "ref": "8f7df9b3e73b65d373c5e4bd738fd7162f41d046",
+  "commit_date_utc": "2026-11-24T13:55:58Z",
+  "checked_on_local_date": "2026-11-24",
+  "source_directory": "project",
+  "source_files": [
+    {
+      "local": "core_tb.v",
+      "repository_path": "project/core_tb.v",
+      "git_blob_sha1": "1f15554c0a08fc32d89eb33a4b3d59d27530fefd",
+      "url": "https://github.com/VVIPLab/ece284fa26/blob/8f7df9b3e73b65d373c5e4bd738fd7162f41d046/project/core_tb.v"
+    },
+    {
+      "local": "mac_array.v",
+      "repository_path": "project/mac_array.v",
+      "git_blob_sha1": "86fc40928a35bb081e7f037447f38a391fdd2afa",
+      "url": "https://github.com/VVIPLab/ece284fa26/blob/8f7df9b3e73b65d373c5e4bd738fd7162f41d046/project/mac_array.v"
+    }
+  ],
+  "note": "Exact UTF-8/LF copies obtained through the read-only GitHub connector. Our working testbench and DUT were not overwritten.",
+  "local_sha256": {
+    "core_tb.v": "7bcfcba27477c9af0951851f964bc7d7cc68d40d8b440ce418601cb567229bf0",
+    "mac_array.v": "078d4a91c29153523c8e0b60e629d14fee253688eefa6c29fd782de498d8afc7"
+  }
+}

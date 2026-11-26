@@ -1,0 +1,13 @@
+{
+  "folders": [{"name": "ECE284 Team", "path": "."}],
+  "settings": {
+    "files.exclude": {
+      "**/build": true,
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "Part3/fpga/db": true,
+      "Part3/fpga/incremental_db": true,
+      "Part3/fpga/output_files": true
+    }
+  }
+}

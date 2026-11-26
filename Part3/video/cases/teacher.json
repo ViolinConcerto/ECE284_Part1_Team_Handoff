@@ -1,0 +1,23 @@
+{
+  "name": "teacher_updated",
+  "frames_dir": "../../../differential_input_batch_updated",
+  "weights": "../../../artifacts/vectors/weight.txt",
+  "weight_metadata": "../../../artifacts/vectors/metadata.json",
+  "weight_choice": "Frozen trained Part1 features.27 weights, explicitly chosen for this experiment. The teacher supplies the input frames, not these weights.",
+  "layout": "CHW",
+  "channels": 8,
+  "output_channels": 8,
+  "height": 16,
+  "width": 16,
+  "kernel": 3,
+  "padding": 1,
+  "stride": 1,
+  "groups": 1,
+  "bias": false,
+  "input_bits": 8,
+  "weight_bits": 4,
+  "chunk": 64,
+  "delta_reference": "X0",
+  "delta_overflow": "reject; never clip or wrap",
+  "output_domain": "raw integer convolution before ReLU; no model-domain activation scale applied"
+}
