@@ -1,4 +1,4 @@
-# Part1 -> RTL team handoff
+# Step 1 → RTL handoff
 
 ## Start here
 
@@ -53,14 +53,13 @@ Input and weight files contain exactly three whitespace-delimited header tokens 
 
 ## Testbench integration
 
-The legacy reference `core_tb.v` opens `activation/`, `weights/`, `output/` and `acc_address.txt` by relative path. Its working directory must therefore be the vector directory:
+From the repository root, run the current testbench with the frozen vectors:
 
 ```bash
-cd artifacts/vectors
-# Compile/run your team's testbench here, or change its file paths consistently.
+python Step3/run.py
 ```
 
-The selected layer fits the original reference's dimensions and packing. The team's RTL/testbench is not included in this Part1 repository and has not been freshly simulated during this handoff. Part4 must run the actual team core/testbench with these frozen vectors and require zero mismatches. Do not reuse an old model's simulation log as evidence for this run.
+The runner imports the vector files into its build directory and compares the final SRAM output with `psum.txt`. See the [Step 3 handoff](Step3/HANDOFF.md) for the Step 4 procedure and output files.
 
 The baseline assignment also requires weight delivery through L0, no IFIFO, and actual SRAM writeback after SFU accumulation and after ReLU. Comparing only `sfp_out` does not establish those writebacks.
 

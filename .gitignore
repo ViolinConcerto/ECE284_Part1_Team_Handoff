@@ -18,6 +18,7 @@ venv/
 .DS_Store
 *.vcd
 *.vvp
+build/
 
 # Course data from Canvas; each teammate downloads a local copy.
 /differential_input_batch_updated/

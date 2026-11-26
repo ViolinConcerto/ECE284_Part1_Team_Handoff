@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "simulator": "Vivado Simulator 2017.4",
+  "command": "python Step3/run.py --sim vivado --regress --waves",
+  "layer": "features.27",
+  "step1_vectors_commit": "914e159f55496ffcc0dc468777f0d68380663afe",
+  "dataset": "CIFAR-10 test index 0",
+  "jobs": 2,
+  "kernel_psum_words_checked": 648,
+  "final_words_checked": 32,
+  "final_scalars_checked": 256,
+  "final_scalar_mismatches": 0,
+  "case_results": {
+    "team_handoff": "PASS",
+    "signed_limits": "PASS",
+    "rectangle": "PASS",
+    "kernel1": "PASS",
+    "fifo_capacity": "PASS"
+  },
+  "output_sha256": "a9c261976daf4c6727ad11c4e073dea437bc992bc1ce11425deb73a74e1d3f83",
+  "source_sha256_normalized_lf": {
+    "Step3/core_tb.v": "591e38c4de09a2a939445958360e7efed4f72968502c765dfbec8e1a0a1d2396",
+    "Step3/run.py": "8ba7d82f5966a44e2803f0e4120edb9d60c62edd73272d69fafb21fb115bf449",
+    "Step3/import_handoff.py": "6be416fd5543e298ec654050a58fc6e8aabf03bdf8092118793de7c9693757c7",
+    "Step2/filelist.f": "a50b44b37bc8ff81ef102058254fa04e85ff7e79e2cbc5c8c96cc92bbb3ac43a",
+    "Step2/course/mac.v": "a8477e2054f299b5e8ef6ed3066985618398e9355b009df4a45cc631eaa2e19b",
+    "Step2/homework/mac_tile.v": "00bad7f232c37bf64e379dc1de610978a620c46fedef1653cd3bb4276f363404",
+    "Step2/homework/mac_row.v": "5d7e2db092df640235bfb949ab8f3da10ff762d1eb30bc5df9e93912de23d8fc",
+    "Step2/course/mac_array.v": "078d4a91c29153523c8e0b60e629d14fee253688eefa6c29fd782de498d8afc7",
+    "Step2/homework/l0.v": "fb4c76487ab40e55cbfb06369672ba5599e2a9a9b1addae81eb4cda845737013",
+    "Step2/homework/ofifo.v": "209d6d564c3eb551768e8fafa75a6bcfa3f792e26ce2f8cb2ca10df348af85cc",
+    "Step2/course/fifo_depth64.v": "ed6b0edfeacbd578c76ddddb452b9b963d312f442d22fb67277ec440abe6381e",
+    "Step2/course/fifo_mux_2_1.v": "f3bec1476777e536f3bfea6529f5fe0ec5766faa48cd15b9bfca9f6f5003af83",
+    "Step2/course/fifo_mux_8_1.v": "8a70468a99272ef5da81cbb2a4e3f7adc01d2cf80ef655b6bffc2f51becc2b42",
+    "Step2/course/fifo_mux_16_1.v": "517e8b23f451c35b5e91c21a874591a47938fcac1f509dae8a859a86bf0e0cff",
+    "Step2/course/sram_32b_w2048.v": "fb969e80d9706b63d518501d04ade58ef3e4aa59771eafe1b6f6205e00aa4669",
+    "Step2/course/sram_128b_w2048.v": "8bc340a790679612263cc00071c49edcfc5663a4fc35f17cd0443be35dfbeb41",
+    "Step2/rtl/sfp.v": "21d0cdbd053b878d5c28ed379a3be563c8ddfb88df5ba49421187faf2045cc06",
+    "Step2/rtl/corelet.v": "8a5d0ed98c9165e2fb404a780aa017ac5b04515baa06935924d3a672fdb62efa",
+    "Step2/rtl/core.v": "a4bc53bc381fc5419ea5b1b4065e1fa65a4d6d784f624c5fdf8ab17a31eb1214"
+  }
+}

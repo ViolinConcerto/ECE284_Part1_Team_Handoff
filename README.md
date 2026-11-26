@@ -1,8 +1,17 @@
-# ECE284 Part1: trained W4A4 VGG16 and RTL handoff
+# ECE284 final project
 
-This checkout also includes the team's vanilla and differential RTL in [`Part3/`](Part3/HANDOFF.md). Start there for the simulation commands, local Canvas inputs, and Quartus handoff. Both RTL workloads use the frozen vectors in this repository.
+| Assignment | Start here |
+|---|---|
+| Part 1, Step 1 — W4A4 training and frozen vectors | [Step 1 handoff](HANDOFF.md) |
+| Part 1, Step 2 — vanilla RTL | [Step 2 handoff](Step2/HANDOFF.md) |
+| Part 1, Step 3 — testbench | [Step 3 handoff](Step3/HANDOFF.md) |
+| Part 1, Step 4 — verification | [Step 4 procedure](Step3/HANDOFF.md#step-4) |
+| Part 1, Step 5 — FPGA mapping | [Quartus project](Step5/README.md) |
+| Part 2 — differential video | [Video RTL and testbench](Part2/README.md) |
 
-This repository contains the Part1 code, completed training evidence, original best checkpoint and frozen hardware vectors for the team's later project stages. Read **[HANDOFF.md](HANDOFF.md)** before integrating the vectors into RTL.
+## Step 1: W4A4 VGG16
+
+The frozen checkpoint and hardware vectors are in `artifacts/`. Both RTL workloads use the selected layer's weights from Step 1.
 
 | Result | Value |
 |---|---|
@@ -59,7 +68,7 @@ Re-evaluate the supplied best model, without retraining:
 python train.py --device cuda --data-root data --output runs/reevaluate --evaluate artifacts/checkpoints/best.pth --sample-index 0
 ```
 
-The original 10,000-image model evaluation and a new RTL simulation were not rerun in the handoff packaging environment. Fresh artifact checks verify consistency of the supplied tensors/vectors and checkpoint contents; see `artifacts/validation/` for their exact scope. Part4 must still verify the team's actual core and testbench with these vectors.
+The training figures above come from the original Step 1 run. For the current RTL simulation and the check against the frozen vectors, see the [Step 3 handoff](Step3/HANDOFF.md).
 
 ## Source reference
 

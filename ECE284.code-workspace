@@ -5,9 +5,9 @@
       "**/build": true,
       "**/__pycache__": true,
       "**/.pytest_cache": true,
-      "Part3/fpga/db": true,
-      "Part3/fpga/incremental_db": true,
-      "Part3/fpga/output_files": true
+      "Step5/db": true,
+      "Step5/incremental_db": true,
+      "Step5/output_files": true
     }
   }
 }
