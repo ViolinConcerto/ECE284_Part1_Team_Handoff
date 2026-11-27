@@ -103,7 +103,7 @@ def integer_reference(cfg: dict, inputs: list[int], weights: list[int]):
             [pack([max(0, value) for value in row], 16) for row in sums])
 
 
-def prepare(case: Path, repeats: int) -> tuple[dict, Path]:
+def prepare(case: Path, repeats: int, pipeline_l0: bool = False) -> tuple[dict, Path]:
     cfg = json.loads((case / "case.json").read_text(encoding="utf-8-sig"))
     ph, pw, oh, ow = dimensions(cfg)
     inputs = read_words(case / "input.txt", 32, ph * pw)
@@ -113,14 +113,15 @@ def prepare(case: Path, repeats: int) -> tuple[dict, Path]:
     if expected != calculated:
         pos = next(i for i, (a, b) in enumerate(zip(expected, calculated)) if a != b)
         raise ValueError(f"supplied golden disagrees with integer convolution at output word {pos}")
-    build = ROOT / "build" / cfg["name"]
+    build = ROOT / ("build/pipelined" if pipeline_l0 else "build") / cfg["name"]
     build.mkdir(parents=True, exist_ok=True)
     for name, values, bits in (("input.mem", inputs, 32), ("weight.mem", weights, 32),
                                ("expected_raw.mem", raw, 128), ("expected_sum.mem", sums, 128),
                                ("expected_relu.mem", expected, 128)):
         write_words(build / name, values, bits)
     params = {"ACT_H": cfg["height"], "ACT_W": cfg["width"], "KERNEL": cfg["kernel"],
-              "PAD": cfg["padding"], "STRIDE": cfg["stride"], "REPEATS": repeats}
+              "PAD": cfg["padding"], "STRIDE": cfg["stride"], "REPEATS": repeats,
+              "PIPELINE_L0": int(pipeline_l0)}
     (build / "case_config.vh").write_text(
         "".join(f"localparam integer {key} = {value};\n" for key, value in params.items()), encoding="ascii")
     (build / "case.json").write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
@@ -224,7 +225,7 @@ def compile_and_run(args, top: str, sources: list[Path], build: Path, waves: boo
 
 
 def simulate(case: Path, args) -> dict:
-    cfg, build = prepare(case, args.repeat)
+    cfg, build = prepare(case, args.repeat, args.pipeline_l0)
     sources = [STEP2 / line.strip() for line in (STEP2 / "filelist.f").read_text().splitlines()
                if line.strip() and not line.lstrip().startswith("//")]
     output = compile_and_run(args, "core_tb", sources+[ROOT / "core_tb.v"], build, args.waves)
@@ -239,6 +240,7 @@ def simulate(case: Path, args) -> dict:
     with (build / "cycles.csv").open(newline="") as stream:
         cycles = list(csv.DictReader(stream))
     summary = dict(case=cfg["name"], status="PASS", simulator=args.sim, repeats=args.repeat,
+                   pipeline_l0=args.pipeline_l0,
                    output_words_per_job=oh * ow, scalar_outputs_per_job=oh * ow * 8,
                    scalar_mismatches=0,
                    raw_words_per_job=cfg["kernel"] ** 2 * (cfg["height"]+2*cfg["padding"])
@@ -253,6 +255,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", type=Path, help="normalized vector directory (default: import Step 1)")
     parser.add_argument("--regress", action="store_true", help="also check signed limits, shapes and FIFO capacity")
+    parser.add_argument("--pipeline-l0", action="store_true", help="overlap SRAM reads with L0 writes")
     parser.add_argument("--waves", action="store_true", help="write a VCD for each case")
     parser.add_argument("--repeat", type=int, default=2, help="independent jobs in each simulation")
     parser.add_argument("--sim", choices=("auto", "vivado", "iverilog"), default="auto")
@@ -266,11 +269,12 @@ def main() -> int:
         parser.error(str(error))
     if args.repeat < 1:
         parser.error("--repeat must be positive")
-    report = ROOT / "build/regression.json"
+    build = ROOT / ("build/pipelined" if args.pipeline_l0 else "build")
+    report = build / "regression.json"
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(dict(status="RUNNING", simulator=args.sim)) + "\n", encoding="utf-8")
     try:
-        unit = ROOT / "build/sfp_unit"
+        unit = build / "sfp_unit"
         unit.mkdir(parents=True, exist_ok=True)
         text = compile_and_run(args, "sfp_tb", [STEP2 / "rtl/sfp.v", ROOT / "sfp_tb.v"], unit)
         if "PASS SFP" not in text:
@@ -284,7 +288,8 @@ def main() -> int:
             cases += [synthetic("signed_limits", 4, 4, 3, 1, 284, stress=True),
                       synthetic("rectangle", 3, 5, 3, 1, 285),
                       synthetic("kernel1", 3, 3, 1, 0, 286),
-                      synthetic("fifo_capacity", 6, 6, 3, 1, 287)]
+                      synthetic("fifo_capacity", 6, 6, 3, 1, 287),
+                      synthetic("single_word", 1, 1, 1, 0, 288)]
         summaries = [simulate(case, args) for case in cases]
         report.write_text(json.dumps(
             dict(status="PASS", cases=summaries), indent=2) + "\n", encoding="utf-8")

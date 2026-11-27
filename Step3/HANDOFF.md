@@ -24,6 +24,12 @@ The [course template](https://github.com/VVIPLab/ece284fa26/blob/8f7df9b3e73b65d
 
 Stages 2–5 repeat for each kernel position. Stage 50 in `cycles.csv` records readback checks. The frozen `features.27` sample is already padded to 6×6. There are 36 input words and 72 weight words. Both pack eight 4-bit lanes per word, with channel 0 in the low bits. The output has 16 words, each with eight signed 16-bit lanes.
 
+## SRAM-to-L0 pipeline
+
+Add `--pipeline-l0` to the run command. The testbench reads the first word, then writes each word into L0 while reading the next. The default schedule still takes `2N` clocks for `N` words, compared with `N+1` for the pipeline.
+
+On `features.27`, the activation load took 37 clocks instead of 72 per kernel position. Across two jobs, total simulation cycles fell from 6,461 to 5,705 with identical SRAM outputs. Compare `build/team_handoff/cycles.csv` with `build/pipelined/team_handoff/cycles.csv` under `Step3/`.
+
 ## Step 4
 
 1. Run the command above from this checkout. The runner validates and copies `input.txt`, `weight.txt` and `psum.txt` into `Step3/build/inputs/team_handoff/` and checks both pre-ReLU and post-ReLU integer results from the Step 1 export.

@@ -122,16 +122,29 @@ module core_tb;
         begin sfp_clear = 1; tick(); sfp_clear = 0; end
     endtask
 
-    // First clock latches the SRAM address; the second clock writes that data into L0.
     task xmem_to_l0(input integer base, input integer count);
         integer t;
         begin
-            for (t=0; t<count; t=t+1) begin
-                A_xmem = base+t; CEN_xmem = 0; WEN_xmem = 1;
-                tick();
-                CEN_xmem = 1; l0_wr = 1;
-                tick();
+            if (PIPELINE_L0 && count > 0) begin
                 l0_wr = 0;
+                A_xmem = base; CEN_xmem = 0; WEN_xmem = 1;
+                tick(); // Prime the SRAM read before writing L0.
+                l0_wr = 1;
+                for (t=1; t<count; t=t+1) begin
+                    A_xmem = base+t;
+                    tick(); // L0 takes the previous word while SRAM reads the next.
+                end
+                CEN_xmem = 1;
+                tick(); // Write the last word with SRAM read disabled.
+                l0_wr = 0;
+            end else begin
+                for (t=0; t<count; t=t+1) begin
+                    A_xmem = base+t; CEN_xmem = 0; WEN_xmem = 1;
+                    tick();
+                    CEN_xmem = 1; l0_wr = 1;
+                    tick();
+                    l0_wr = 0;
+                end
             end
         end
     endtask
