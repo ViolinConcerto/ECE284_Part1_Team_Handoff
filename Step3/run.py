@@ -103,7 +103,17 @@ def integer_reference(cfg: dict, inputs: list[int], weights: list[int]):
             [pack([max(0, value) for value in row], 16) for row in sums])
 
 
-def prepare(case: Path, repeats: int, pipeline_l0: bool = False) -> tuple[dict, Path]:
+def build_directory(pipeline_l0: bool, stream_ofifo: bool) -> Path:
+    build = ROOT / "build"
+    if pipeline_l0:
+        build /= "pipelined"
+    if stream_ofifo:
+        build /= "streamed"
+    return build
+
+
+def prepare(case: Path, repeats: int, pipeline_l0: bool = False,
+            stream_ofifo: bool = False) -> tuple[dict, Path]:
     cfg = json.loads((case / "case.json").read_text(encoding="utf-8-sig"))
     ph, pw, oh, ow = dimensions(cfg)
     inputs = read_words(case / "input.txt", 32, ph * pw)
@@ -113,7 +123,7 @@ def prepare(case: Path, repeats: int, pipeline_l0: bool = False) -> tuple[dict, 
     if expected != calculated:
         pos = next(i for i, (a, b) in enumerate(zip(expected, calculated)) if a != b)
         raise ValueError(f"supplied golden disagrees with integer convolution at output word {pos}")
-    build = ROOT / ("build/pipelined" if pipeline_l0 else "build") / cfg["name"]
+    build = build_directory(pipeline_l0, stream_ofifo) / cfg["name"]
     build.mkdir(parents=True, exist_ok=True)
     for name, values, bits in (("input.mem", inputs, 32), ("weight.mem", weights, 32),
                                ("expected_raw.mem", raw, 128), ("expected_sum.mem", sums, 128),
@@ -121,7 +131,7 @@ def prepare(case: Path, repeats: int, pipeline_l0: bool = False) -> tuple[dict, 
         write_words(build / name, values, bits)
     params = {"ACT_H": cfg["height"], "ACT_W": cfg["width"], "KERNEL": cfg["kernel"],
               "PAD": cfg["padding"], "STRIDE": cfg["stride"], "REPEATS": repeats,
-              "PIPELINE_L0": int(pipeline_l0)}
+              "PIPELINE_L0": int(pipeline_l0), "STREAM_OFIFO": int(stream_ofifo)}
     (build / "case_config.vh").write_text(
         "".join(f"localparam integer {key} = {value};\n" for key, value in params.items()), encoding="ascii")
     (build / "case.json").write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
@@ -225,7 +235,7 @@ def compile_and_run(args, top: str, sources: list[Path], build: Path, waves: boo
 
 
 def simulate(case: Path, args) -> dict:
-    cfg, build = prepare(case, args.repeat, args.pipeline_l0)
+    cfg, build = prepare(case, args.repeat, args.pipeline_l0, args.stream_ofifo)
     sources = [STEP2 / line.strip() for line in (STEP2 / "filelist.f").read_text().splitlines()
                if line.strip() and not line.lstrip().startswith("//")]
     output = compile_and_run(args, "core_tb", sources+[ROOT / "core_tb.v"], build, args.waves)
@@ -240,12 +250,17 @@ def simulate(case: Path, args) -> dict:
     with (build / "cycles.csv").open(newline="") as stream:
         cycles = list(csv.DictReader(stream))
     summary = dict(case=cfg["name"], status="PASS", simulator=args.sim, repeats=args.repeat,
-                   pipeline_l0=args.pipeline_l0,
+                   pipeline_l0=args.pipeline_l0, stream_ofifo=args.stream_ofifo,
                    output_words_per_job=oh * ow, scalar_outputs_per_job=oh * ow * 8,
                    scalar_mismatches=0,
                    raw_words_per_job=cfg["kernel"] ** 2 * (cfg["height"]+2*cfg["padding"])
                                      * (cfg["width"]+2*cfg["padding"]),
                    cycles=cycles, golden_source=str(case / "psum.txt"))
+    if args.stream_ofifo:
+        match = re.search(r"^Stream OFIFO depth=(\d+) peaks:((?: \d+){8})$", output, re.MULTILINE)
+        if not match:
+            raise RuntimeError(f"missing OFIFO occupancy measurement: {build}")
+        summary.update(ofifo_depth=int(match[1]), ofifo_peak_per_lane=list(map(int, match[2].split())))
     (build / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     print(f"PASS {cfg['name']}: {oh*ow*8} scalar outputs/job, {args.repeat} jobs; {build}")
     return summary
@@ -256,6 +271,7 @@ def main() -> int:
     parser.add_argument("--case", type=Path, help="normalized vector directory (default: import Step 1)")
     parser.add_argument("--regress", action="store_true", help="also check signed limits, shapes and FIFO capacity")
     parser.add_argument("--pipeline-l0", action="store_true", help="overlap SRAM reads with L0 writes")
+    parser.add_argument("--stream-ofifo", action="store_true", help="write partial sums during PE execution using a 16-word OFIFO")
     parser.add_argument("--waves", action="store_true", help="write a VCD for each case")
     parser.add_argument("--repeat", type=int, default=2, help="independent jobs in each simulation")
     parser.add_argument("--sim", choices=("auto", "vivado", "iverilog"), default="auto")
@@ -269,7 +285,7 @@ def main() -> int:
         parser.error(str(error))
     if args.repeat < 1:
         parser.error("--repeat must be positive")
-    build = ROOT / ("build/pipelined" if args.pipeline_l0 else "build")
+    build = build_directory(args.pipeline_l0, args.stream_ofifo)
     report = build / "regression.json"
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(dict(status="RUNNING", simulator=args.sim)) + "\n", encoding="utf-8")

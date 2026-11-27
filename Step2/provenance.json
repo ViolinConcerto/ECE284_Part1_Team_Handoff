@@ -81,17 +81,22 @@
     {
       "path": "rtl/core.v",
       "origin": "new_step2_implementation",
-      "sha256": "a4bc53bc381fc5419ea5b1b4065e1fa65a4d6d784f624c5fdf8ab17a31eb1214"
+      "sha256": "b240f9c9d2d0b84ccd8eb683f4893e8ed93e56e4700773b0f058dc93ca47d2c7"
     },
     {
       "path": "rtl/corelet.v",
       "origin": "new_step2_implementation",
-      "sha256": "8a5d0ed98c9165e2fb404a780aa017ac5b04515baa06935924d3a672fdb62efa"
+      "sha256": "dabc0d91cd3b3ffff71512d118dda65c00bd166a84f11e95b08aafadb2e1cfe3"
     },
     {
       "path": "rtl/sfp.v",
       "origin": "new_step2_implementation",
       "sha256": "21d0cdbd053b878d5c28ed379a3be563c8ddfb88df5ba49421187faf2045cc06"
+    },
+    {
+      "path": "rtl/ofifo_stream.v",
+      "origin": "streaming_alpha",
+      "sha256": "025d0d1fc9950dad3587ffe47f890bcd396663cdb5d9dd882b2befad7f61235f"
     }
   ],
   "notes": [
@@ -100,6 +105,6 @@
     "core, corelet and SFU are new implementations of the frozen vanilla Step3 port/timing contract.",
     "The official project array is used as supplied: 8x8 baseline; north partial sums start at zero and its instruction pipeline is flushed by the testbench reset interval.",
     "No 2024 wrapper, SFU or RTL file was copied into this Step2 implementation.",
-    "SRAMs retain contents over reset; FIFOs preserve 64-word capacity and the existing registered OFIFO read delay."
+    "SRAMs retain contents over reset. The default uses 64-word FIFOs and the registered OFIFO read. The optional streaming alpha uses a 16-word OFIFO with aligned same-edge pops."
   ]
 }

@@ -24,11 +24,21 @@ The [course template](https://github.com/VVIPLab/ece284fa26/blob/8f7df9b3e73b65d
 
 Stages 2–5 repeat for each kernel position. Stage 50 in `cycles.csv` records readback checks. The frozen `features.27` sample is already padded to 6×6. There are 36 input words and 72 weight words. Both pack eight 4-bit lanes per word, with channel 0 in the low bits. The output has 16 words, each with eight signed 16-bit lanes.
 
-## SRAM-to-L0 pipeline
+## Streaming alpha
 
-Add `--pipeline-l0` to the run command. The testbench reads the first word, then writes each word into L0 while reading the next. The default schedule still takes `2N` clocks for `N` words, compared with `N+1` for the pipeline.
+```text
+python Step3/run.py --sim vivado --pipeline-l0 --stream-ofifo --regress
+```
 
-On `features.27`, the activation load took 37 clocks instead of 72 per kernel position. Across two jobs, total simulation cycles fell from 6,461 to 5,705 with identical SRAM outputs. Compare `build/team_handoff/cycles.csv` with `build/pipelined/team_handoff/cycles.csv` under `Step3/`.
+`--pipeline-l0` overlaps SRAM reads with L0 writes. `--stream-ofifo` writes each aligned eight-channel result to SRAM while the PEs are still running. In `cycles.csv`, stage 45 records the combined execution and writeback. Both switches are optional.
+
+| `features.27`, two jobs | Simulation cycles | OFIFO depth per lane |
+|---|---:|---:|
+| Baseline | 6,461 | 64 |
+| L0 pipeline | 5,705 | 64 |
+| L0 pipeline + streamed writeback | 4,409 | 16 |
+
+All 256 final values matched in all three runs. The combined mode passed six cases, including singleton input and 64 input words. The highest OFIFO occupancy was eight words in one lane. OFIFO data storage falls from 8,192 to 2,048 bits, excluding control. For a Cyclone IV fit of the alpha, see [Step 5](../Step5/README.md#reproduce).
 
 ## Step 4
 

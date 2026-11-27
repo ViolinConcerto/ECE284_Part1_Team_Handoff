@@ -9,6 +9,7 @@ module core_tb;
     localparam integer NIJ = PAD_H*PAD_W, NOUT = OUT_H*OUT_W;
     localparam integer NK = KERNEL*KERNEL, WEIGHT_BASE = 1024;
     localparam integer SUM_BASE = NK*NIJ, RELU_BASE = SUM_BASE+NOUT;
+    localparam integer STREAM_DEPTH = 16;
 
     reg clk = 0;
     always #5 clk = ~clk;
@@ -36,7 +37,8 @@ module core_tb;
     assign inst[1] = execute;
     assign inst[0] = load;
 
-    core dut(.clk(clk), .reset(reset), .inst(inst), .D_xmem(D_xmem),
+    core #(.STREAM_OFIFO(STREAM_OFIFO), .OFIFO_DEPTH(STREAM_DEPTH)) dut(
+             .clk(clk), .reset(reset), .inst(inst), .D_xmem(D_xmem),
              .ofifo_valid(ofifo_valid), .sfp_out(sfp_out),
              .sfp_clear(sfp_clear), .sfp_relu(sfp_relu), .pmem_from_sfp(pmem_from_sfp),
              .pmem_read_data(pmem_read_data), .l0_ready(l0_ready), .ofifo_full(ofifo_full));
@@ -47,16 +49,38 @@ module core_tb;
     reg [127:0] expected_sum [0:NOUT-1];
     reg [127:0] expected_relu [0:NOUT-1];
     integer cycles = 0, phase = 0, job = 0, stage_start = 0;
-    integer metrics_fd, result_fd, k, pos;
+    integer metrics_fd, result_fd, k, pos, channel;
+    integer fifo_words [0:COLS-1];
+    integer fifo_peak [0:COLS-1];
     reg [127:0] observed;
 
     always @(posedge clk) begin
         cycles <= cycles + 1;
         if (!reset) begin
             if (l0_wr && l0_ready !== 1'b1) $fatal(1, "L0 full at cycle %0d", cycles);
-            if (NIJ < 64 && ofifo_full === 1'b1) $fatal(1, "unexpected OFIFO full at cycle %0d", cycles);
+            if (!STREAM_OFIFO && NIJ < 64 && ofifo_full === 1'b1)
+                $fatal(1, "unexpected OFIFO full at cycle %0d", cycles);
             if ((acc && sfp_relu) || (acc && sfp_clear) || (sfp_clear && sfp_relu))
                 $fatal(1, "conflicting SFP commands");
+        end
+    end
+
+    // Count producer words and aligned pops in each lane. Reset clears only the live count.
+    always @(posedge clk) begin : track_stream_fifo
+        integer c, next_words;
+        if (STREAM_OFIFO) begin
+            for (c=0; c<COLS; c=c+1) begin
+                if (reset) begin
+                    fifo_words[c] <= 0;
+                end else begin
+                    next_words = fifo_words[c] + (dut.datapath.array_valid[c] ? 1 : 0)
+                                               - ((ofifo_rd && ofifo_valid) ? 1 : 0);
+                    if (next_words < 0 || next_words > STREAM_DEPTH)
+                        $fatal(1, "stream OFIFO lane %0d exceeded capacity at cycle %0d", c, cycles);
+                    fifo_words[c] <= next_words;
+                    if (next_words > fifo_peak[c]) fifo_peak[c] <= next_words;
+                end
+            end
         end
     end
 
@@ -230,6 +254,30 @@ module core_tb;
         end
     endtask
 
+    task execute_and_store(input integer kernel_index);
+        integer t, stored, c;
+        begin
+            begin_stage(45, kernel_index);
+            stored = 0;
+            pmem_from_sfp = 0;
+            for (t=0; t<NIJ+ROWS+COLS+2; t=t+1) begin
+                l0_rd = (t < NIJ); execute = l0_rd;
+                ofifo_rd = (stored < NIJ) && (ofifo_valid === 1'b1);
+                CEN_pmem = !ofifo_rd; WEN_pmem = !ofifo_rd;
+                if (ofifo_rd) begin
+                    A_pmem = kernel_index*NIJ+stored;
+                    stored = stored+1;
+                end
+                tick(); // The SRAM write and aligned FIFO pop use the same edge.
+            end
+            l0_rd = 0; execute = 0; ofifo_rd = 0; CEN_pmem = 1; WEN_pmem = 1;
+            if (stored != NIJ) $fatal(1, "stream OFIFO wrote %0d of %0d words", stored, NIJ);
+            for (c=0; c<COLS; c=c+1)
+                if (fifo_words[c] !== 0) $fatal(1, "stream OFIFO lane %0d still has data", c);
+            end_stage(kernel_index);
+        end
+    endtask
+
     task check_raw_kernel(input integer kernel_index);
         integer t;
         reg [127:0] value;
@@ -286,6 +334,7 @@ module core_tb;
     endtask
 
     initial begin
+        for (channel=0; channel<COLS; channel=channel+1) fifo_peak[channel] = 0;
         if (NIJ > 64 || RELU_BASE+NOUT > 2048 || WEIGHT_BASE+NK*COLS > 2048)
             $fatal(1, "case exceeds memory capacity");
         $readmemb("input.mem", inputs);
@@ -307,8 +356,12 @@ module core_tb;
             for (k=0; k<NK; k=k+1) begin
                 load_pe_kernel(k);
                 load_l0_activations(k);
-                execute_kernel(k);
-                store_partials(k);
+                if (STREAM_OFIFO)
+                    execute_and_store(k);
+                else begin
+                    execute_kernel(k);
+                    store_partials(k);
+                end
                 check_raw_kernel(k);
             end
             accumulate_outputs();
@@ -325,6 +378,11 @@ module core_tb;
             $display("PASS job=%0d: %0d SRAM output words / %0d scalars", job, NOUT, NOUT*COLS);
         end
         $fclose(metrics_fd);
+        if (STREAM_OFIFO) begin
+            $write("Stream OFIFO depth=%0d peaks:", STREAM_DEPTH);
+            for (channel=0; channel<COLS; channel=channel+1) $write(" %0d", fifo_peak[channel]);
+            $display("");
+        end
         $display("PASS Step3: seven stages, signed/ReLU SRAM writeback, %0d jobs, total_cycles=%0d",
                  REPEATS, cycles);
         $finish;

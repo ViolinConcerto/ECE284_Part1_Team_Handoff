@@ -11,5 +11,6 @@ course/fifo_mux_16_1.v
 course/sram_32b_w2048.v
 course/sram_128b_w2048.v
 rtl/sfp.v
+rtl/ofifo_stream.v
 rtl/corelet.v
 rtl/core.v

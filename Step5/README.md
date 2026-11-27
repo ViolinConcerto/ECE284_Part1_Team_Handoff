@@ -21,7 +21,7 @@ Screenshots: [Fmax summary](fmax_slow_100C.png), [Power Analyzer summary](power_
 | `fpga_src/` | Quartus-compatible copies of 5 Step 2 files (see below) |
 | `RESULTS.md` | Final timing, power and resource results |
 
-The other 7 source files are read directly from `../Step2/`.
+The remaining source files are read directly from `../Step2/`.
 
 ## Differences from the Step 2 simulation sources
 
@@ -36,3 +36,5 @@ The other 7 source files are read directly from `../Step2/`.
 4. Processing → Power Analyzer Tool → Start. No input activity files are used; input I/O toggle rate is 20% and internal nodes use vectorless estimation. Quartus reports confidence "Low" because no simulation activity is supplied.
 
 Compilation outputs (`db/`, `output_files/`, `*.rpt`) are git-ignored.
+
+For an alpha fit, use a separate revision with the same settings and add `set_parameter -name STREAM_OFIFO 1` to its QSF. That selects the same 16-word output FIFO used by `--stream-ofifo` in Step 3. The existing results were collected with the original 64-word output FIFO. [Quartus parameter syntax](https://www.intel.com/programmable/technical-pdfs/683475.pdf)
