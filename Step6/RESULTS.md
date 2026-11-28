@@ -7,7 +7,7 @@
 Per inference the baseline occupies 20,736 MAC slots (9 kernel positions × 36 padded input words × 64 PEs). Only 9,216 (44.4%) contribute to a valid output, and only 1,559 (7.5%) also multiply two nonzero operands:
 
 - every kernel position streams all 36 padded words, although only the 16 words of its 4×4 output window contribute;
-- after ReLU 71.9% of the activations are zero (87.5% including padding), and 20 of the 36 padded words are entirely zero.
+- after ReLU 71.9% of the activations are zero (87.5% including padding); 20 of the 36 padded words are entirely zero, all of them padding.
 
 ## Design
 
@@ -54,6 +54,7 @@ In a full network the previous layer's ReLU write-back can emit the bitmap with 
 - **Where the cycles go.** L0 pipelining halves the fill; streaming writeback hides all 648 write-back cycles under execution; zero-word skipping cuts issued words from 324 to 100 and SFU reads from 144 to 100; the pipelined SFU removes the ReLU reload. Weight loading (315 cycles, 32% of the alpha total) is now the largest stage.
 - **Synthetic sparsity** (`sparse_words`: 6×6 input, 50% zero words, 70% zero lanes): 4,528 → 1,272 cycles (3.56×); issued words 576 → 146; SRAM accesses 1,792 → 678.
 - **All-zero input** (`zero_input`): 2,700 → 172 cycles. All nine kernel passes are skipped; the zero outputs are still written back and checked.
+- **Other images.** Every interior word of the Step 1 sample has a nonzero channel, so word skipping removes only padding here and 990 cycles is the worst case for this layer shape; the dense `signed_limits` input also takes 990. Any other image therefore needs at most 990 cycles (at least 2.73×), and fewer when whole pixels are zero.
 - **What remains.** The alpha keeps all 1,559 useful products in 6,400 issued slots (24%). The other slots hold zero lanes inside nonzero words, which word-level skipping cannot remove.
 - **Accounting.** Work cycles are the testbench-controller cycles of stages 1–7, excluding verification readback (stage 50) and the reset interval between kernel positions. Stages 6–7 still contain a one-cycle read-back check of each written output (32 cycles in every row). SRAM accesses and toggles exclude all read-back checks.
 
@@ -61,7 +62,7 @@ In a full network the previous layer's ReLU write-back can emit the bitmap with 
 
 Energy per inference is E = P·N/f. Step 5 measured P = 373.79 mW at 100 MHz with vectorless activity (core dynamic 211.54 mW, static 119.73 mW, I/O 42.52 mW), so the baseline costs 10.09 µJ.
 
-- **Bound for the alpha.** At the baseline power the alpha costs 3.70 µJ (2.73× less). The alpha corelet differs only in its output FIFO, whose 2,048 data bits replace 8,192; those 8,192 bits are about two thirds of the 12,098 registers in the baseline fit, so the `STREAM_OFIFO=1` fit should lower power as well.
+- **Alpha estimate (conditional).** If the alpha corelet drew the baseline's 373.79 mW, an inference would cost 3.70 µJ (2.73× less). This is not a bound: the alpha changes the output FIFO (2,048 instead of 8,192 data bits; the 8,192 are about two thirds of the 12,098 registers in the baseline fit) and the switching per cycle. Frequency, resources and power are compared once both versions are fitted with the same settings; until then the evidence is cycles and SRAM accesses.
 - **Activity.** SRAM accesses fall 51% (1,020 → 496; psum SRAM writes 356 → 132). Corelet bit toggles outside the OFIFO fall 45% (1.61 M → 0.88 M); these blocks use identical RTL in every row. Both are simulation counts, a first-order proxy for dynamic energy; Power Analyzer turns them into power once it is given a gate-level VCD (pending).
 - **OFIFO toggles are not comparable across implementations.** The course OFIFO is a register file per lane with a 64:1 multiplexer tree that switches on every pointer increment: 2.12 M toggles, 57% of all baseline corelet toggles. The streaming FIFO is written behaviourally, so its storage does not appear in the VCD and its count is understated. The Quartus fit is the fair comparison.
 - **Operand isolation is not adopted.** Holding the last nonzero activation at the multiplier removes 20% of multiplier-input toggles but adds 4.4% to the array's toggles through the extra registers and output multiplexer (+2.6% overall), and the extra registers also add clock load. It would pay off only if each multiplier-input flip caused about 12 internal flips, which we do not expect from a 4-bit multiplier; a gate-level run can settle it.
