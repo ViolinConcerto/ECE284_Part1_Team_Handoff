@@ -18,9 +18,10 @@
     },
     {
       "path": "course/fifo_depth64.v",
-      "origin": "course_unmodified",
+      "origin": "course_modified",
       "repository_path": "hardware/wk6/hw2/verilog/fifo_depth64.v",
-      "sha256": "ea152bbd735ac0c890b615123627663ccc9de6712042d873c3f862b6cdf82797"
+      "sha256": "81dd016e46d74b1b3d98481ff7fa44e40ea5e78ed6ef1b03c0746ee3baabe5b7",
+      "modification": "Step 6 fix: the data write is gated by !full; the original overwrote the head entry when written while full (found by the directed FIFO test added after mutation testing)."
     },
     {
       "path": "course/fifo_mux_2_1.v",
