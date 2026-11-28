@@ -38,3 +38,5 @@ The remaining source files are read directly from `../Step2/`.
 Compilation outputs (`db/`, `output_files/`, `*.rpt`) are git-ignored.
 
 For an alpha fit, use a separate revision with the same settings and add `set_parameter -name STREAM_OFIFO 1` to its QSF. That selects the same 16-word output FIFO used by `--stream-ofifo` in Step 3. The existing results were collected with the original 64-word output FIFO. [Quartus parameter syntax](https://www.intel.com/programmable/technical-pdfs/683475.pdf)
+
+Step 6 also fixes `fifo_depth64`, which overwrote its oldest entry when written while full. Refit the baseline revision with the current sources so that both rows use the same FIFO.

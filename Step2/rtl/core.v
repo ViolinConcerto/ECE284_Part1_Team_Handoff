@@ -17,6 +17,7 @@ module core #(
     output ofifo_valid,
     output [127:0] sfp_out,
     output [127:0] pmem_read_data,
+    output [31:0] xmem_read_data,
     output l0_ready,
     output ofifo_full
 );
@@ -41,4 +42,5 @@ module core #(
         .pmem_write_data(psum_write_word));
 
     assign pmem_read_data = psum_word;
+    assign xmem_read_data = input_word; // lets the controller read the occupancy bitmap
 endmodule

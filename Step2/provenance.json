@@ -58,7 +58,8 @@
       "origin": "completed_2026_homework",
       "source": "D:\\Documents\\UCSD\\ECE284\\Homework6\\HW6_submission\\HW6_Zuoming_Niu.zip",
       "archive_member": "hw1_2/verilog/mac_tile.v",
-      "sha256": "00bad7f232c37bf64e379dc1de610978a620c46fedef1653cd3bb4276f363404"
+      "sha256": "a5bcf4d97ea93e16c8fc5550e2dcb8cbc898413b9276238c2f3e83759101bd28",
+      "modification": "Step 6: optional `ifdef OPERAND_ISOLATION` path (default off; evaluated and not adopted)."
     },
     {
       "path": "homework/mac_row.v",
@@ -82,7 +83,8 @@
     {
       "path": "rtl/core.v",
       "origin": "new_step2_implementation",
-      "sha256": "b240f9c9d2d0b84ccd8eb683f4893e8ed93e56e4700773b0f058dc93ca47d2c7"
+      "sha256": "37089002b2289efe516c9076aa907e3728b8c6029544e0f60233360504417b19",
+      "modification": "Step 6: xmem_read_data port lets the controller read the occupancy bitmap."
     },
     {
       "path": "rtl/corelet.v",

@@ -24,21 +24,23 @@ The [course template](https://github.com/VVIPLab/ece284fa26/blob/8f7df9b3e73b65d
 
 Stages 2–5 repeat for each kernel position. Stage 50 in `cycles.csv` records readback checks. The frozen `features.27` sample is already padded to 6×6. There are 36 input words and 72 weight words. Both pack eight 4-bit lanes per word, with channel 0 in the low bits. The output has 16 words, each with eight signed 16-bit lanes.
 
-## Streaming alpha
+## Alpha modes (Step 6)
+
+The default command above is the baseline required by Steps 3–4. Each switch below is optional, keeps the course `inst` fields, and is checked by the same regression:
+
+| Switch | Effect | Stage in `cycles.csv` |
+|---|---|---|
+| `--pipeline-l0` | SRAM reads overlap L0 writes (one word per cycle) | 3 |
+| `--stream-ofifo` | 16-word OFIFO; psums are written to SRAM while the PEs run (`STREAM_OFIFO=1`) | 45 |
+| `--skip-zero` | L1 holds only nonzero words plus an occupancy bitmap; each kernel position issues only the nonzero words of its valid output window | 1–7 |
+| `--pipeline-sfu` | psum reads overlap SFU accumulation; ReLU follows the stored sum without reloading it | 67 |
+| `--operand-isolation` | `OPERAND_ISOLATION` PE variant, evaluated and not adopted | — |
 
 ```text
-python Step3/run.py --sim vivado --pipeline-l0 --stream-ofifo --regress
+python Step3/run.py --sim vivado --regress --pipeline-l0 --stream-ofifo --skip-zero --pipeline-sfu
 ```
 
-`--pipeline-l0` overlaps SRAM reads with L0 writes. `--stream-ofifo` writes each aligned eight-channel result to SRAM while the PEs are still running. In `cycles.csv`, stage 45 records the combined execution and writeback. Both switches are optional.
-
-| `features.27`, two jobs | Simulation cycles | OFIFO depth per lane |
-|---|---:|---:|
-| Baseline | 6,461 | 64 |
-| L0 pipeline | 5,705 | 64 |
-| L0 pipeline + streamed writeback | 4,409 | 16 |
-
-All 256 final values matched in all three runs. The combined mode passed six cases, including singleton input and 64 input words. The highest OFIFO occupancy was eight words in one lane. OFIFO data storage falls from 8,192 to 2,048 bits, excluding control. For a Cyclone IV fit of the alpha, see [Step 5](../Step5/README.md#reproduce).
+The testbench prints `STATS` per job (issued words, SFU reads, skipped passes and SRAM accesses of the work stages); `run.py` recomputes them independently and fails on any difference. Every run also executes the SFU and FIFO unit tests. Results, figures and the mutation report are in [Step 6](../Step6/RESULTS.md).
 
 ## Step 4
 
