@@ -1,0 +1,280 @@
+[
+  {
+    "label": "Baseline",
+    "flags": [],
+    "work_cycles": 2700,
+    "stage_cycles": {
+      "L1 load": 108,
+      "Weight load": 378,
+      "L0 fill": 648,
+      "PE execute": 486,
+      "Psum writeback": 648,
+      "SFU accumulate + ReLU": 432
+    },
+    "issued_words": 324,
+    "mac_slots": 20736,
+    "sfu_reads": 144,
+    "sram": {
+      "l1_reads": 396,
+      "l1_writes": 108,
+      "psum_reads": 160,
+      "psum_writes": 356
+    },
+    "sram_accesses": 1020,
+    "toggles": {
+      "corelet": 3735473,
+      "ofifo": 2120952,
+      "array": 813104,
+      "other": 55769,
+      "l0": 721999,
+      "sfu": 23649,
+      "multiplier_inputs": 11847,
+      "like_for_like": 1614521
+    },
+    "regression": {
+      "team_handoff": 2700,
+      "signed_limits": 2700,
+      "rectangle": 2627,
+      "kernel1": 221,
+      "fifo_capacity": 4528,
+      "single_word": 85,
+      "sparse_words": 4528,
+      "zero_input": 2700
+    }
+  },
+  {
+    "label": "+ L0 pipelining",
+    "flags": [
+      "--pipeline-l0"
+    ],
+    "work_cycles": 2322,
+    "stage_cycles": {
+      "L1 load": 108,
+      "Weight load": 315,
+      "L0 fill": 333,
+      "PE execute": 486,
+      "Psum writeback": 648,
+      "SFU accumulate + ReLU": 432
+    },
+    "issued_words": 324,
+    "mac_slots": 20736,
+    "sfu_reads": 144,
+    "sram": {
+      "l1_reads": 396,
+      "l1_writes": 108,
+      "psum_reads": 160,
+      "psum_writes": 356
+    },
+    "sram_accesses": 1020,
+    "toggles": {
+      "corelet": 3732449,
+      "ofifo": 2120952,
+      "array": 812348,
+      "other": 54257,
+      "l0": 721243,
+      "sfu": 23649,
+      "multiplier_inputs": 11847,
+      "like_for_like": 1611497
+    },
+    "regression": {
+      "team_handoff": 2322,
+      "signed_limits": 2322,
+      "rectangle": 2258,
+      "kernel1": 206,
+      "fifo_capacity": 3898,
+      "single_word": 78,
+      "sparse_words": 3898,
+      "zero_input": 2322
+    }
+  },
+  {
+    "label": "+ streaming writeback",
+    "flags": [
+      "--pipeline-l0",
+      "--stream-ofifo"
+    ],
+    "work_cycles": 1674,
+    "stage_cycles": {
+      "L1 load": 108,
+      "Weight load": 315,
+      "L0 fill": 333,
+      "PE execute": 486,
+      "Psum writeback": 0,
+      "SFU accumulate + ReLU": 432
+    },
+    "issued_words": 324,
+    "mac_slots": 20736,
+    "sfu_reads": 144,
+    "sram": {
+      "l1_reads": 396,
+      "l1_writes": 108,
+      "psum_reads": 160,
+      "psum_writes": 356
+    },
+    "sram_accesses": 1020,
+    "toggles": {
+      "corelet": 1651644,
+      "other": 55277,
+      "ofifo": 40423,
+      "array": 811052,
+      "l0": 721243,
+      "sfu": 23649,
+      "multiplier_inputs": 11847,
+      "like_for_like": 1611221
+    },
+    "regression": {
+      "team_handoff": 1674,
+      "signed_limits": 1674,
+      "rectangle": 1628,
+      "kernel1": 188,
+      "fifo_capacity": 2746,
+      "single_word": 76,
+      "sparse_words": 2746,
+      "zero_input": 1674
+    }
+  },
+  {
+    "label": "+ zero-word skipping",
+    "flags": [
+      "--pipeline-l0",
+      "--stream-ofifo",
+      "--skip-zero"
+    ],
+    "work_cycles": 1122,
+    "stage_cycles": {
+      "L1 load": 92,
+      "Weight load": 315,
+      "L0 fill": 109,
+      "PE execute": 262,
+      "Psum writeback": 0,
+      "SFU accumulate + ReLU": 344
+    },
+    "issued_words": 100,
+    "mac_slots": 6400,
+    "sfu_reads": 100,
+    "sram": {
+      "l1_reads": 174,
+      "l1_writes": 90,
+      "psum_reads": 116,
+      "psum_writes": 132
+    },
+    "sram_accesses": 512,
+    "toggles": {
+      "corelet": 909550,
+      "other": 37313,
+      "ofifo": 16945,
+      "array": 520774,
+      "l0": 312767,
+      "sfu": 21751,
+      "multiplier_inputs": 9895,
+      "like_for_like": 892605
+    },
+    "regression": {
+      "team_handoff": 1122,
+      "signed_limits": 1122,
+      "rectangle": 1076,
+      "kernel1": 190,
+      "fifo_capacity": 1946,
+      "single_word": 78,
+      "sparse_words": 1490,
+      "zero_input": 220
+    }
+  },
+  {
+    "label": "+ pipelined SFU",
+    "flags": [
+      "--pipeline-l0",
+      "--stream-ofifo",
+      "--skip-zero",
+      "--pipeline-sfu"
+    ],
+    "work_cycles": 990,
+    "stage_cycles": {
+      "L1 load": 92,
+      "Weight load": 315,
+      "L0 fill": 109,
+      "PE execute": 262,
+      "Psum writeback": 0,
+      "SFU accumulate + ReLU": 212
+    },
+    "issued_words": 100,
+    "mac_slots": 6400,
+    "sfu_reads": 100,
+    "sram": {
+      "l1_reads": 174,
+      "l1_writes": 90,
+      "psum_reads": 100,
+      "psum_writes": 132
+    },
+    "sram_accesses": 496,
+    "toggles": {
+      "corelet": 899628,
+      "other": 34075,
+      "ofifo": 16945,
+      "array": 520510,
+      "l0": 312767,
+      "sfu": 15331,
+      "multiplier_inputs": 9895,
+      "like_for_like": 882683
+    },
+    "regression": {
+      "team_handoff": 990,
+      "signed_limits": 990,
+      "rectangle": 955,
+      "kernel1": 163,
+      "fifo_capacity": 1618,
+      "single_word": 75,
+      "sparse_words": 1272,
+      "zero_input": 172
+    }
+  },
+  {
+    "label": "+ operand isolation",
+    "flags": [
+      "--pipeline-l0",
+      "--stream-ofifo",
+      "--skip-zero",
+      "--pipeline-sfu",
+      "--operand-isolation"
+    ],
+    "work_cycles": 990,
+    "stage_cycles": {
+      "L1 load": 92,
+      "Weight load": 315,
+      "L0 fill": 109,
+      "PE execute": 262,
+      "Psum writeback": 0,
+      "SFU accumulate + ReLU": 212
+    },
+    "issued_words": 100,
+    "mac_slots": 6400,
+    "sfu_reads": 100,
+    "sram": {
+      "l1_reads": 174,
+      "l1_writes": 90,
+      "psum_reads": 100,
+      "psum_writes": 132
+    },
+    "sram_accesses": 496,
+    "toggles": {
+      "corelet": 922402,
+      "array": 543284,
+      "other": 34075,
+      "ofifo": 16945,
+      "l0": 312767,
+      "sfu": 15331,
+      "multiplier_inputs": 7950,
+      "like_for_like": 905457
+    },
+    "regression": {
+      "team_handoff": 990,
+      "signed_limits": 990,
+      "rectangle": 955,
+      "kernel1": 163,
+      "fifo_capacity": 1618,
+      "single_word": 75,
+      "sparse_words": 1272,
+      "zero_input": 172
+    }
+  }
+]

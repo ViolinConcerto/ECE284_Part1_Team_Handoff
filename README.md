@@ -7,6 +7,7 @@
 | Part 1, Step 3 — testbench | [Step 3 handoff](Step3/HANDOFF.md) |
 | Part 1, Step 4 — verification | [Step 4 procedure](Step3/HANDOFF.md#step-4) |
 | Part 1, Step 5 — FPGA mapping | [Quartus project](Step5/README.md) |
+| Part 1, Step 6 — alpha: sparsity-aware streaming dataflow | [Results and reproduction](Step6/RESULTS.md) |
 | Part 2 — differential video | [Video RTL and testbench](Part2/README.md) |
 
 ## Step 1: W4A4 VGG16
