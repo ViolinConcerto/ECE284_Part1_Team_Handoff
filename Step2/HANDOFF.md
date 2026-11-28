@@ -43,7 +43,7 @@ The existing course instruction layout is retained:
 | 3 / 2 | L0 read / write |
 | 1 / 0 | Execute / weight load |
 
-SRAM CEN and WEN are active low. A synchronous read first captures the address; the consumer must wait for the corresponding output before latching it. The Step3 driver must respect the FIFO's registered read behavior as well.
+SRAM CEN and WEN are active low. A synchronous read captures the address before the consumer can latch the data. The default OFIFO registers its read request. `STREAM_OFIFO=1` selects a smaller buffer that pops all lanes together on `rd && ofifo_valid`, allowing SRAM to capture the same word on that edge.
 
 The integration also needs explicit SFU clear, hold and ReLU control, selection of SFU versus OFIFO data for psum SRAM writes, and a way to read SRAM results back. Clearing a new output sum must not erase previously stored SRAM data. ReLU must not run between the nine signed contributions.
 

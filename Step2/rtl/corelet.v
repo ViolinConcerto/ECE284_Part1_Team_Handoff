@@ -3,7 +3,9 @@ module corelet #(
     parameter row = 8,
     parameter col = 8,
     parameter bw = 4,
-    parameter psum_bw = 16
+    parameter psum_bw = 16,
+    parameter STREAM_OFIFO = 0,
+    parameter OFIFO_DEPTH = 16
 )(
     input clk,
     input reset,
@@ -35,10 +37,17 @@ module corelet #(
         .in_n({col*psum_bw{1'b0}}), .inst_w(inst[1:0]),
         .out_s(array_result), .valid(array_valid));
 
-    ofifo #(.col(col), .bw(psum_bw)) output_buffer(
-        .clk(clk), .reset(reset), .in(array_result), .out(ofifo_out),
-        .wr(array_valid), .rd(inst[6]), .o_full(ofifo_o_full),
-        .o_ready(ofifo_o_ready), .o_valid(ofifo_valid));
+    generate if (STREAM_OFIFO) begin : stream_output
+        ofifo_stream #(.COLS(col), .WIDTH(psum_bw), .DEPTH(OFIFO_DEPTH)) output_buffer(
+            .clk(clk), .reset(reset), .in(array_result), .out(ofifo_out),
+            .wr(array_valid), .rd(inst[6]), .o_full(ofifo_o_full), .o_valid(ofifo_valid));
+        assign ofifo_o_ready = !ofifo_o_full;
+    end else begin : buffered_output
+        ofifo #(.col(col), .bw(psum_bw)) output_buffer(
+            .clk(clk), .reset(reset), .in(array_result), .out(ofifo_out),
+            .wr(array_valid), .rd(inst[6]), .o_full(ofifo_o_full),
+            .o_ready(ofifo_o_ready), .o_valid(ofifo_valid));
+    end endgenerate
 
     genvar channel;
     generate for (channel=0; channel<col; channel=channel+1) begin : output_channel

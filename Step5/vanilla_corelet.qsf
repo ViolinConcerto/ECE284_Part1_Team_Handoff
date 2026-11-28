@@ -17,6 +17,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE fpga_src/fifo_mux_2_1.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/fifo_mux_8_1.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/course/fifo_mux_16_1.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/rtl/sfp.v
+set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/rtl/ofifo_stream.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../Step2/rtl/corelet.v
 
 # No VCD/SAF overrides: unspecified input data activity is 20% of its clock rate.

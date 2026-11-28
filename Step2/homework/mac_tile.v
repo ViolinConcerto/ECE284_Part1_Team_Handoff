@@ -22,9 +22,32 @@ module mac_tile (clk, out_s, in_w, out_e, in_n, inst_w, inst_e, reset);
   assign inst_e = inst_q;
   assign out_s = mac_out;
 
+`ifdef OPERAND_ISOLATION
+  // Alpha direction 2: the multiplier keeps the last nonzero activation and a zero
+  // activation bypasses the product, so zero operands cause no multiplier switching.
+  reg [bw-1:0] a_mul_q;
+  reg a_zero_q;
+  wire [psum_bw-1:0] product_sum;
+
+  always @(posedge clk) begin
+    if (reset) begin
+      a_mul_q <= 0;
+      a_zero_q <= 1'b1;
+    end else if (|inst_w) begin
+      a_zero_q <= (in_w == 0);
+      if (in_w != 0) a_mul_q <= in_w;
+    end
+  end
+
+  mac #(.bw(bw), .psum_bw(psum_bw)) mac_instance (
+    .a(a_mul_q), .b(b_q), .c(c_q), .out(product_sum)
+  );
+  assign mac_out = a_zero_q ? c_q : product_sum;
+`else
   mac #(.bw(bw), .psum_bw(psum_bw)) mac_instance (
     .a(a_q), .b(b_q), .c(c_q), .out(mac_out)
   );
+`endif
 
   always @(posedge clk) begin
     if (reset) begin

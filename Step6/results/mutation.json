@@ -1,0 +1,289 @@
+{
+  "date_utc": "2026-11-28T02:15:51+00:00",
+  "simulator": "iverilog",
+  "modes": {
+    "baseline": [],
+    "alpha": [
+      "--pipeline-l0",
+      "--stream-ofifo",
+      "--skip-zero",
+      "--pipeline-sfu"
+    ]
+  },
+  "mutants": 27,
+  "equivalent": 1,
+  "killed": 26,
+  "mutation_score": 1.0,
+  "results": [
+    {
+      "id": "M01",
+      "file": "course/mac.v",
+      "fault": "MAC: activation sign-extended instead of zero-extended",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=15 channel=0 got=3 expected=-13",
+      "equivalent": ""
+    },
+    {
+      "id": "M02",
+      "file": "course/mac.v",
+      "fault": "MAC: north partial sum dropped",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=7 channel=0 got=0 expected=-14",
+      "equivalent": ""
+    },
+    {
+      "id": "M03",
+      "file": "homework/mac_tile.v",
+      "fault": "PE: east activation bypasses its register",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/core_tb.v:221: X/Z in comparison stage=5 address=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M04",
+      "file": "homework/mac_tile.v",
+      "fault": "PE: activation register frozen during weight load",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=7 channel=1 got=0 expected=-8",
+      "equivalent": ""
+    },
+    {
+      "id": "M05",
+      "file": "homework/mac_tile.v",
+      "fault": "PE: weight overwritten by later words",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=7 channel=0 got=-26 expected=-14",
+      "equivalent": ""
+    },
+    {
+      "id": "M06",
+      "file": "homework/mac_tile.v",
+      "fault": "PE: valid derived from load instead of execute",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/core_tb.v:355: missing OFIFO word 1, kernel 0",
+      "equivalent": ""
+    },
+    {
+      "id": "M07",
+      "file": "homework/mac_row.v",
+      "fault": "Row: valid tapped one column early",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=0 channel=0 got=-92 expected=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M08",
+      "file": "course/mac_array.v",
+      "fault": "Array: last input-channel row skipped",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=6 channel=0 got=-14 expected=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M09",
+      "file": "course/mac_array.v",
+      "fault": "Array: instruction skew broken at row 2",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=0 channel=0 got=-60 expected=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M10",
+      "file": "homework/l0.v",
+      "fault": "L0: rows read without stagger",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/core_tb.v:221: X/Z in comparison stage=5 address=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M11",
+      "file": "homework/l0.v",
+      "fault": "L0: back-pressure (ready) lost",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: l0 back-pressure when full",
+      "equivalent": ""
+    },
+    {
+      "id": "M12",
+      "file": "homework/l0.v",
+      "fault": "L0: input-channel order reversed",
+      "killed": false,
+      "baseline": "survived",
+      "alpha": "survived",
+      "evidence": "",
+      "equivalent": "weights and activations share the L0 lanes, so reversing both permutes the input-channel sum without changing any dot product"
+    },
+    {
+      "id": "M13",
+      "file": "homework/ofifo.v",
+      "fault": "OFIFO: valid when any lane has data",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: ofifo valid needs all lanes",
+      "equivalent": ""
+    },
+    {
+      "id": "M14",
+      "file": "homework/ofifo.v",
+      "fault": "OFIFO: read request not registered",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: ofifo read is registered",
+      "equivalent": ""
+    },
+    {
+      "id": "M15",
+      "file": "course/fifo_depth64.v",
+      "fault": "FIFO64: empty reported as full",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: fifo64 reset state",
+      "equivalent": ""
+    },
+    {
+      "id": "M16",
+      "file": "course/fifo_depth64.v",
+      "fault": "FIFO64: read underflow not blocked",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: fifo64 full after 64 writes",
+      "equivalent": ""
+    },
+    {
+      "id": "M17",
+      "file": "rtl/ofifo_stream.v",
+      "fault": "Stream OFIFO: pop without aligned valid",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: stream ofifo ignores a read while empty",
+      "equivalent": ""
+    },
+    {
+      "id": "M18",
+      "file": "rtl/ofifo_stream.v",
+      "fault": "Stream OFIFO: overflow unprotected",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: stream ofifo full at depth",
+      "equivalent": ""
+    },
+    {
+      "id": "M19",
+      "file": "rtl/ofifo_stream.v",
+      "fault": "Stream OFIFO: write dropped when full and popping",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: stream ofifo order after pop+push",
+      "equivalent": ""
+    },
+    {
+      "id": "M20",
+      "file": "rtl/sfp.v",
+      "fault": "SFU: ReLU applied before the sum is complete",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/sfp_tb.v:17: SFP expected -5, got 0",
+      "equivalent": ""
+    },
+    {
+      "id": "M21",
+      "file": "rtl/sfp.v",
+      "fault": "SFU: clear ignored",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/sfp_tb.v:17: SFP expected 0, got 5",
+      "equivalent": ""
+    },
+    {
+      "id": "M22",
+      "file": "rtl/sfp.v",
+      "fault": "SFU: ReLU whenever idle (no hold state)",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/sfp_tb.v:17: SFP expected -5, got 0",
+      "equivalent": ""
+    },
+    {
+      "id": "M23",
+      "file": "rtl/sfp.v",
+      "fault": "SFU: ReLU tests the wrong sign bit",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/sfp_tb.v:17: SFP expected 0, got -32768",
+      "equivalent": ""
+    },
+    {
+      "id": "M24",
+      "file": "rtl/corelet.v",
+      "fault": "Corelet: writeback source swapped",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=7 channel=0 got=0 expected=-14",
+      "equivalent": ""
+    },
+    {
+      "id": "M25",
+      "file": "rtl/core.v",
+      "fault": "Core: psum SRAM address LSB stuck at 0",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=6 channel=0 got=-14 expected=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M26",
+      "file": "rtl/core.v",
+      "fault": "Core: occupancy bitmap read path broken",
+      "killed": true,
+      "baseline": "survived",
+      "alpha": "killed",
+      "evidence": "mismatch stage=5 address=0 channel=0 got=-14 expected=0",
+      "equivalent": ""
+    },
+    {
+      "id": "M27",
+      "file": "course/fifo_depth64.v",
+      "fault": "FIFO64: write while full overwrites the head (original course code)",
+      "killed": true,
+      "baseline": "killed",
+      "alpha": "killed",
+      "evidence": "FATAL: Step3/fifo_tb.v:13: FIFO check failed: fifo64 order",
+      "equivalent": ""
+    }
+  ]
+}

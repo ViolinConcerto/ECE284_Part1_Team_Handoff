@@ -13,8 +13,9 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parent
-STEP2 = ROOT.parent / "Step2"
-DEFAULT_CASE = ROOT / "build/inputs/team_handoff"
+STEP2 = ROOT.parent / "Step2"        # --rtl replaces it (mutation testing)
+BUILD = ROOT / "build"               # --build-root replaces it
+DEFAULT_CASE = BUILD / "inputs/team_handoff"
 
 
 def read_words(path: Path, width: int, count: int) -> list[int]:
@@ -103,7 +104,41 @@ def integer_reference(cfg: dict, inputs: list[int], weights: list[int]):
             [pack([max(0, value) for value in row], 16) for row in sums])
 
 
-def prepare(case: Path, repeats: int) -> tuple[dict, Path]:
+MODES = (("pipeline_l0", "l0"), ("stream_ofifo", "stream"), ("skip_zero", "skip"),
+         ("pipeline_sfu", "sfu"), ("operand_isolation", "iso"))
+
+
+def build_directory(args) -> Path:
+    tags = [tag for flag, tag in MODES if getattr(args, flag)]
+    return BUILD / "-".join(tags) if tags else BUILD
+
+
+def window_positions(cfg: dict) -> list[list[int]]:
+    """Padded input word read by each (kernel position, output) pair."""
+    ph, pw, oh, ow = dimensions(cfg)
+    k, s = cfg["kernel"], cfg["stride"]
+    return [[(y*s + ky)*pw + x*s + kx for y in range(oh) for x in range(ow)]
+            for ky in range(k) for kx in range(k)]
+
+
+def expected_stats(cfg: dict, inputs: list[int], skip_zero: bool, pipeline_sfu: bool) -> dict:
+    """Independent model of one job: issued words, SFU reads, skipped kernel passes and the
+    SRAM accesses of the work stages (verification read-backs excluded)."""
+    windows = window_positions(cfg)
+    nij, nk, nout = len(inputs), len(windows), len(windows[0])
+    if skip_zero:  # nonzero words of each valid window; L1 also holds the occupancy bitmap
+        issued = [sum(1 for pos in window if inputs[pos]) for window in windows]
+        stored, bitmap, sfu = sum(1 for word in inputs if word), -(-nij // 32), sum(issued)
+    else:
+        issued, stored, bitmap, sfu = [nij] * nk, nij, 0, nk * nout
+    executed = sum(1 for n in issued if n)
+    return dict(issued_words=sum(issued), sfu_reads=sfu, skipped_passes=nk - executed,
+                l1_reads=executed * 8 + sum(issued) + bitmap, l1_writes=stored + nk * 8 + bitmap,
+                psum_reads=sfu + (0 if pipeline_sfu else nout), psum_writes=sum(issued) + 2 * nout)
+
+
+def prepare(case: Path, args) -> tuple[dict, Path]:
+    repeats = args.repeat
     cfg = json.loads((case / "case.json").read_text(encoding="utf-8-sig"))
     ph, pw, oh, ow = dimensions(cfg)
     inputs = read_words(case / "input.txt", 32, ph * pw)
@@ -113,23 +148,26 @@ def prepare(case: Path, repeats: int) -> tuple[dict, Path]:
     if expected != calculated:
         pos = next(i for i, (a, b) in enumerate(zip(expected, calculated)) if a != b)
         raise ValueError(f"supplied golden disagrees with integer convolution at output word {pos}")
-    build = ROOT / "build" / cfg["name"]
+    build = build_directory(args) / cfg["name"]
     build.mkdir(parents=True, exist_ok=True)
     for name, values, bits in (("input.mem", inputs, 32), ("weight.mem", weights, 32),
                                ("expected_raw.mem", raw, 128), ("expected_sum.mem", sums, 128),
                                ("expected_relu.mem", expected, 128)):
         write_words(build / name, values, bits)
     params = {"ACT_H": cfg["height"], "ACT_W": cfg["width"], "KERNEL": cfg["kernel"],
-              "PAD": cfg["padding"], "STRIDE": cfg["stride"], "REPEATS": repeats}
+              "PAD": cfg["padding"], "STRIDE": cfg["stride"], "REPEATS": repeats,
+              **{flag.upper(): int(getattr(args, flag)) for flag, _ in MODES}}
     (build / "case_config.vh").write_text(
         "".join(f"localparam integer {key} = {value};\n" for key, value in params.items()), encoding="ascii")
     (build / "case.json").write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
+    cfg["expected_stats"] = expected_stats(cfg, inputs, args.skip_zero, args.pipeline_sfu)
     return cfg, build
 
 
 def synthetic(name: str, height: int, width: int, kernel: int, pad: int, seed: int,
-              stress: bool = False) -> Path:
-    case = ROOT / "build" / "generated_cases" / name
+              stress: bool = False, zero_words: float = 0.0, zero_values: float = 0.0) -> Path:
+    """Random case; zero_words/zero_values mimic ReLU sparsity (whole words / single lanes)."""
+    case = BUILD / "generated_cases" / name
     case.mkdir(parents=True, exist_ok=True)
     cfg = dict(name=name, height=height, width=width, kernel=kernel, padding=pad, stride=1,
                input_channels=8, output_channels=8, activation_bits=4, weight_bits=4,
@@ -139,8 +177,13 @@ def synthetic(name: str, height: int, width: int, kernel: int, pad: int, seed: i
     inputs = []
     for y in range(ph):
         for x in range(pw):
-            values = [0] * 8 if y < pad or y >= ph - pad or x < pad or x >= pw - pad else [
-                (15 if stress else rng.randrange(16)) for _ in range(8)]
+            border = y < pad or y >= ph - pad or x < pad or x >= pw - pad
+            if border or (zero_words and rng.random() < zero_words):
+                values = [0] * 8
+            else:
+                values = [15 if stress else
+                          0 if zero_values and rng.random() < zero_values else rng.randrange(16)
+                          for _ in range(8)]
             inputs.append(pack(values, 4))
     weights = []
     for k in range(kernel * kernel):
@@ -195,12 +238,14 @@ def configure_simulator(args) -> None:
 
 
 def compile_and_run(args, top: str, sources: list[Path], build: Path, waves: bool = False) -> str:
+    defines = ["OPERAND_ISOLATION"] if getattr(args, "operand_isolation", False) else []
     if args.sim == "vivado":
         bindir = Path(args.vivado_bin)
         prefix = ["cmd.exe", "/d", "/c"] if sys.platform == "win32" else []
         suffix = ".bat" if sys.platform == "win32" else ""
         command(prefix + [str(bindir / ("xvlog"+suffix)), "--sv", "-i", str(build),
-                          *map(str, sources)], build, build / "compile.log")
+                          *[x for name in defines for x in ("-d", name)], *map(str, sources)],
+                build, build / "compile.log")
         command(prefix + [str(bindir / ("xelab"+suffix)), top, "-s", top+"_sim",
                           "--debug", "typical", "--timescale", "1ns/1ps"],
                 build, build / "elaborate.log")
@@ -218,13 +263,14 @@ def compile_and_run(args, top: str, sources: list[Path], build: Path, waves: boo
                        build, build / "simulation.log")
     compiled = build / (top+".vvp")
     command([args.iverilog, "-g2012", "-Wall", "-s", top, "-I", build.as_posix(),
+             *[f"-D{name}" for name in defines],
              "-o", compiled.as_posix(), *[s.as_posix() for s in sources]], ROOT, build / "compile.log")
     return command([args.vvp, str(compiled)] + (["+WAVES"] if waves else []),
                    build, build / "simulation.log")
 
 
 def simulate(case: Path, args) -> dict:
-    cfg, build = prepare(case, args.repeat)
+    cfg, build = prepare(case, args)
     sources = [STEP2 / line.strip() for line in (STEP2 / "filelist.f").read_text().splitlines()
                if line.strip() and not line.lstrip().startswith("//")]
     output = compile_and_run(args, "core_tb", sources+[ROOT / "core_tb.v"], build, args.waves)
@@ -236,14 +282,26 @@ def simulate(case: Path, args) -> dict:
         actual = read_words(build / f"result_{job}.txt", 128, oh * ow)
         if actual != expected:
             raise RuntimeError(f"exported SRAM results disagree for job {job}")
+    stats = [{key: int(value) for key, value in re.findall(r"(\w+)=(\d+)", m[1])}
+             for m in re.finditer(r"^STATS job=\d+ (.*)$", output, re.MULTILINE)]
+    if len(stats) != args.repeat or any(job != cfg["expected_stats"] for job in stats):
+        raise RuntimeError(f"testbench schedule {stats} differs from {cfg['expected_stats']}")
     with (build / "cycles.csv").open(newline="") as stream:
         cycles = list(csv.DictReader(stream))
+    work = sum(int(row["cycles"]) for row in cycles if row["job"] == "0" and row["stage"] != "50")
     summary = dict(case=cfg["name"], status="PASS", simulator=args.sim, repeats=args.repeat,
+                   **{flag: getattr(args, flag) for flag, _ in MODES},
+                   work_cycles_per_job=work, **cfg["expected_stats"],
                    output_words_per_job=oh * ow, scalar_outputs_per_job=oh * ow * 8,
                    scalar_mismatches=0,
                    raw_words_per_job=cfg["kernel"] ** 2 * (cfg["height"]+2*cfg["padding"])
                                      * (cfg["width"]+2*cfg["padding"]),
                    cycles=cycles, golden_source=str(case / "psum.txt"))
+    if args.stream_ofifo:
+        match = re.search(r"^Stream OFIFO depth=(\d+) peaks:((?: \d+){8})$", output, re.MULTILINE)
+        if not match:
+            raise RuntimeError(f"missing OFIFO occupancy measurement: {build}")
+        summary.update(ofifo_depth=int(match[1]), ofifo_peak_per_lane=list(map(int, match[2].split())))
     (build / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     print(f"PASS {cfg['name']}: {oh*ow*8} scalar outputs/job, {args.repeat} jobs; {build}")
     return summary
@@ -253,6 +311,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--case", type=Path, help="normalized vector directory (default: import Step 1)")
     parser.add_argument("--regress", action="store_true", help="also check signed limits, shapes and FIFO capacity")
+    parser.add_argument("--pipeline-l0", action="store_true", help="overlap SRAM reads with L0 writes")
+    parser.add_argument("--stream-ofifo", action="store_true", help="write partial sums during PE execution using a 16-word OFIFO")
+    parser.add_argument("--skip-zero", action="store_true", help="issue only nonzero words of each kernel's valid window")
+    parser.add_argument("--pipeline-sfu", action="store_true", help="overlap psum reads with SFU accumulation; ReLU without reload")
+    parser.add_argument("--operand-isolation", action="store_true", help="compile PEs with OPERAND_ISOLATION")
+    parser.add_argument("--rtl", type=Path, help="alternative Step2 directory (mutation testing)")
+    parser.add_argument("--build-root", type=Path, help="alternative build directory")
     parser.add_argument("--waves", action="store_true", help="write a VCD for each case")
     parser.add_argument("--repeat", type=int, default=2, help="independent jobs in each simulation")
     parser.add_argument("--sim", choices=("auto", "vivado", "iverilog"), default="auto")
@@ -266,25 +331,41 @@ def main() -> int:
         parser.error(str(error))
     if args.repeat < 1:
         parser.error("--repeat must be positive")
-    report = ROOT / "build/regression.json"
+    global STEP2, BUILD
+    STEP2 = args.rtl.resolve() if args.rtl else STEP2
+    BUILD = args.build_root.resolve() if args.build_root else BUILD
+    default_case = BUILD / "inputs/team_handoff"
+    build = build_directory(args)
+    report = build / "regression.json"
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(dict(status="RUNNING", simulator=args.sim)) + "\n", encoding="utf-8")
     try:
-        unit = ROOT / "build/sfp_unit"
+        unit = build / "sfp_unit"
         unit.mkdir(parents=True, exist_ok=True)
         text = compile_and_run(args, "sfp_tb", [STEP2 / "rtl/sfp.v", ROOT / "sfp_tb.v"], unit)
         if "PASS SFP" not in text:
             raise RuntimeError("SFP unit test did not complete")
         print("PASS SFP: signed accumulation, hold, clear, ReLU")
+        fifo_sources = [STEP2 / name for name in (
+            "course/fifo_depth64.v", "course/fifo_mux_2_1.v", "course/fifo_mux_8_1.v",
+            "course/fifo_mux_16_1.v", "homework/l0.v", "homework/ofifo.v", "rtl/ofifo_stream.v")]
+        unit = build / "fifo_unit"
+        unit.mkdir(parents=True, exist_ok=True)
+        if "PASS FIFO" not in compile_and_run(args, "fifo_tb", fifo_sources + [ROOT / "fifo_tb.v"], unit):
+            raise RuntimeError("FIFO unit test did not complete")
+        print("PASS FIFO: capacity, underflow, back-pressure, lane alignment, pop+push when full")
         if args.case is None:
             from import_handoff import import_handoff
-            import_handoff(ROOT.parent, DEFAULT_CASE)
-        cases = [args.case.resolve() if args.case is not None else DEFAULT_CASE]
+            import_handoff(ROOT.parent, default_case)
+        cases = [args.case.resolve() if args.case is not None else default_case]
         if args.regress:
             cases += [synthetic("signed_limits", 4, 4, 3, 1, 284, stress=True),
                       synthetic("rectangle", 3, 5, 3, 1, 285),
                       synthetic("kernel1", 3, 3, 1, 0, 286),
-                      synthetic("fifo_capacity", 6, 6, 3, 1, 287)]
+                      synthetic("fifo_capacity", 6, 6, 3, 1, 287),
+                      synthetic("single_word", 1, 1, 1, 0, 288),
+                      synthetic("sparse_words", 6, 6, 3, 1, 289, zero_words=0.5, zero_values=0.7),
+                      synthetic("zero_input", 4, 4, 3, 1, 290, zero_words=1.0)]
         summaries = [simulate(case, args) for case in cases]
         report.write_text(json.dumps(
             dict(status="PASS", cases=summaries), indent=2) + "\n", encoding="utf-8")
