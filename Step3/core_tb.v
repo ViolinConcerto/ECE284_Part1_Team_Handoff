@@ -48,6 +48,8 @@ module core_tb;
     reg [127:0] expected_relu [0:NOUT-1];
     integer cycles = 0, phase = 0, job = 0, stage_start = 0;
     integer metrics_fd, result_fd, k, pos;
+    integer checked_words = 0;
+    reg [8*128-1:0] result_filename;
     reg [127:0] observed;
 
     always @(posedge clk) begin
@@ -140,6 +142,9 @@ module core_tb;
                     input integer address, input integer stage_number);
         integer c;
         begin
+            // Case inequality alone can accept matching X bits in DUT and oracle.
+            if ((^actual === 1'bx) || (^wanted === 1'bx))
+                $fatal(1, "X/Z in comparison stage=%0d address=%0d", stage_number, address);
             if (actual !== wanted) begin
                 for (c=0; c<COLS; c=c+1)
                     if (actual[PSUM_BW*c +: PSUM_BW] !== wanted[PSUM_BW*c +: PSUM_BW])
@@ -149,6 +154,7 @@ module core_tb;
                                  $signed(wanted[PSUM_BW*c +: PSUM_BW]));
                 $fatal(1, "data mismatch");
             end
+            checked_words = checked_words + 1;
         end
     endtask
 
@@ -280,6 +286,16 @@ module core_tb;
         $readmemb("expected_raw.mem", expected_raw);
         $readmemb("expected_sum.mem", expected_sum);
         $readmemb("expected_relu.mem", expected_relu);
+        // Fail on missing, short or unknown data even when run without Python.
+        for (pos=0; pos<NIJ; pos=pos+1)
+            if (^inputs[pos] === 1'bx) $fatal(1, "uninitialized input word %0d", pos);
+        for (pos=0; pos<NK*COLS; pos=pos+1)
+            if (^weights[pos] === 1'bx) $fatal(1, "uninitialized weight word %0d", pos);
+        for (pos=0; pos<NK*NIJ; pos=pos+1)
+            if (^expected_raw[pos] === 1'bx) $fatal(1, "uninitialized raw oracle %0d", pos);
+        for (pos=0; pos<NOUT; pos=pos+1)
+            if ((^expected_sum[pos] === 1'bx) || (^expected_relu[pos] === 1'bx))
+                $fatal(1, "uninitialized output oracle %0d", pos);
         metrics_fd = $fopen("cycles.csv", "w");
         if (!metrics_fd) $fatal(1, "cannot open cycles.csv");
         $fdisplay(metrics_fd, "job,stage,kernel,start_cycle,end_cycle,cycles");
@@ -301,7 +317,9 @@ module core_tb;
             accumulate_outputs();
             relu_outputs();
             phase = 8;
-            result_fd = $fopen($sformatf("result_%0d.txt", job), "w");
+            // $swrite also works with older Icarus runtimes lacking $sformatf.
+            $swrite(result_filename, "result_%0d.txt", job);
+            result_fd = $fopen(result_filename, "w");
             if (!result_fd) $fatal(1, "cannot open result file");
             for (pos=0; pos<NOUT; pos=pos+1) begin
                 read_pmem(RELU_BASE+pos, observed);
@@ -312,6 +330,9 @@ module core_tb;
             $display("PASS job=%0d: %0d SRAM output words / %0d scalars", job, NOUT, NOUT*COLS);
         end
         $fclose(metrics_fd);
+        if (checked_words != REPEATS*(NK*NIJ+4*NOUT))
+            $fatal(1, "incomplete verification: %0d word checks", checked_words);
+        $display("PASS checks: %0d word comparisons / %0d scalar comparisons", checked_words, checked_words*COLS);
         $display("PASS Step3: seven stages, signed/ReLU SRAM writeback, %0d jobs, total_cycles=%0d",
                  REPEATS, cycles);
         $finish;
