@@ -1,0 +1,141 @@
+{
+  "case": "kernel1",
+  "status": "PASS",
+  "simulator": "iverilog",
+  "repeats": 2,
+  "output_words_per_job": 9,
+  "scalar_outputs_per_job": 72,
+  "scalar_mismatches": 0,
+  "raw_words_per_job": 9,
+  "cycles": [
+    {
+      "job": "0",
+      "stage": "1",
+      "kernel": "-1",
+      "start_cycle": "20",
+      "end_cycle": "37",
+      "cycles": "17"
+    },
+    {
+      "job": "0",
+      "stage": "2",
+      "kernel": "0",
+      "start_cycle": "56",
+      "end_cycle": "98",
+      "cycles": "42"
+    },
+    {
+      "job": "0",
+      "stage": "3",
+      "kernel": "0",
+      "start_cycle": "98",
+      "end_cycle": "116",
+      "cycles": "18"
+    },
+    {
+      "job": "0",
+      "stage": "4",
+      "kernel": "0",
+      "start_cycle": "116",
+      "end_cycle": "143",
+      "cycles": "27"
+    },
+    {
+      "job": "0",
+      "stage": "5",
+      "kernel": "0",
+      "start_cycle": "143",
+      "end_cycle": "161",
+      "cycles": "18"
+    },
+    {
+      "job": "0",
+      "stage": "50",
+      "kernel": "0",
+      "start_cycle": "161",
+      "end_cycle": "170",
+      "cycles": "9"
+    },
+    {
+      "job": "0",
+      "stage": "6",
+      "kernel": "-1",
+      "start_cycle": "170",
+      "end_cycle": "215",
+      "cycles": "45"
+    },
+    {
+      "job": "0",
+      "stage": "7",
+      "kernel": "-1",
+      "start_cycle": "215",
+      "end_cycle": "269",
+      "cycles": "54"
+    },
+    {
+      "job": "1",
+      "stage": "1",
+      "kernel": "-1",
+      "start_cycle": "297",
+      "end_cycle": "314",
+      "cycles": "17"
+    },
+    {
+      "job": "1",
+      "stage": "2",
+      "kernel": "0",
+      "start_cycle": "333",
+      "end_cycle": "375",
+      "cycles": "42"
+    },
+    {
+      "job": "1",
+      "stage": "3",
+      "kernel": "0",
+      "start_cycle": "375",
+      "end_cycle": "393",
+      "cycles": "18"
+    },
+    {
+      "job": "1",
+      "stage": "4",
+      "kernel": "0",
+      "start_cycle": "393",
+      "end_cycle": "420",
+      "cycles": "27"
+    },
+    {
+      "job": "1",
+      "stage": "5",
+      "kernel": "0",
+      "start_cycle": "420",
+      "end_cycle": "438",
+      "cycles": "18"
+    },
+    {
+      "job": "1",
+      "stage": "50",
+      "kernel": "0",
+      "start_cycle": "438",
+      "end_cycle": "447",
+      "cycles": "9"
+    },
+    {
+      "job": "1",
+      "stage": "6",
+      "kernel": "-1",
+      "start_cycle": "447",
+      "end_cycle": "492",
+      "cycles": "45"
+    },
+    {
+      "job": "1",
+      "stage": "7",
+      "kernel": "-1",
+      "start_cycle": "492",
+      "end_cycle": "546",
+      "cycles": "54"
+    }
+  ],
+  "golden_source": "/Users/linglinshuai/Documents/ChatGPT/ECE284/project_step5/Step3/build/generated_cases/kernel1/psum.txt"
+}

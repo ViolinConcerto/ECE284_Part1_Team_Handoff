@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "source_commit": "1ae89946cc8f7de32e5a6278d6b9c6469980905d",
+  "simulator": "Icarus Verilog 10.1 (stable)",
+  "local_tb_changes": [
+    "Use $swrite for output filenames (old Icarus compatibility)",
+    "Reject X/Z data and unknown input/oracle memory",
+    "Assert complete comparison count"
+  ],
+  "hardware_rtl_modified": false,
+  "negative_controls_run": false,
+  "cases": [
+    {
+      "case": "team_handoff",
+      "status": "PASS",
+      "repeats": 2,
+      "scalar_outputs_per_job": 128,
+      "scalar_mismatches": 0,
+      "raw_words_per_job": 324
+    },
+    {
+      "case": "signed_limits",
+      "status": "PASS",
+      "repeats": 2,
+      "scalar_outputs_per_job": 128,
+      "scalar_mismatches": 0,
+      "raw_words_per_job": 324
+    },
+    {
+      "case": "rectangle",
+      "status": "PASS",
+      "repeats": 2,
+      "scalar_outputs_per_job": 120,
+      "scalar_mismatches": 0,
+      "raw_words_per_job": 315
+    },
+    {
+      "case": "kernel1",
+      "status": "PASS",
+      "repeats": 2,
+      "scalar_outputs_per_job": 72,
+      "scalar_mismatches": 0,
+      "raw_words_per_job": 9
+    },
+    {
+      "case": "fifo_capacity",
+      "status": "PASS",
+      "repeats": 2,
+      "scalar_outputs_per_job": 288,
+      "scalar_mismatches": 0,
+      "raw_words_per_job": 576
+    }
+  ],
+  "total_final_scalars_compared": 1472,
+  "source_sha256": {
+    "Step2/course/mac.v": "25bbe8bc07e7223217345d489aeaf35245522c6b7fdd104dab2ad625d8165aa8",
+    "Step2/homework/mac_tile.v": "00bad7f232c37bf64e379dc1de610978a620c46fedef1653cd3bb4276f363404",
+    "Step2/homework/mac_row.v": "5d7e2db092df640235bfb949ab8f3da10ff762d1eb30bc5df9e93912de23d8fc",
+    "Step2/course/mac_array.v": "bd44ada10ddbecdac47f0263ae8cf8dae126274f91f46cff502a44f1bc6078d3",
+    "Step2/homework/l0.v": "8238b862f9cca1e145a036c0694739d0374c5e02c427e0c843086b37f9b98824",
+    "Step2/homework/ofifo.v": "71347fd9c89a78f47a769340cf033ac5cfc9c1266076b813fa7d7048d13e1827",
+    "Step2/course/fifo_depth64.v": "ea152bbd735ac0c890b615123627663ccc9de6712042d873c3f862b6cdf82797",
+    "Step2/course/fifo_mux_2_1.v": "b9455a15534946e627e1c2f0cee36b633d73a4a7023693d6ca5bf90a9598fe44",
+    "Step2/course/fifo_mux_8_1.v": "9698092362027358433c50f607404c50433691b97505458c35a22eeb2783b454",
+    "Step2/course/fifo_mux_16_1.v": "7fdbda22c204fbc0dfde67c8754432f0b9430742de70bc8352865e7e987156de",
+    "Step2/course/sram_32b_w2048.v": "bbb4d499b22c08f470498b1ee23ac6092eaa37a2032f772bde497047271d4aad",
+    "Step2/course/sram_128b_w2048.v": "80e1f5bc91cc888b3c511d3b83f7cabd95f1d0d747cfe9fe2b4275c7bbf023d5",
+    "Step2/rtl/sfp.v": "21d0cdbd053b878d5c28ed379a3be563c8ddfb88df5ba49421187faf2045cc06",
+    "Step2/rtl/corelet.v": "8a5d0ed98c9165e2fb404a780aa017ac5b04515baa06935924d3a672fdb62efa",
+    "Step2/rtl/core.v": "a4bc53bc381fc5419ea5b1b4065e1fa65a4d6d784f624c5fdf8ab17a31eb1214",
+    "Step3/core_tb.v": "8fc5a37b76ed3bc5b140db7fbdf236af5bea9dc7400dd89b34c74cbc3351df4c",
+    "Step3/run.py": "8ba7d82f5966a44e2803f0e4120edb9d60c62edd73272d69fafb21fb115bf449",
+    "Step3/import_handoff.py": "6be416fd5543e298ec654050a58fc6e8aabf03bdf8092118793de7c9693757c7",
+    "Step3/sfp_tb.v": "d4eddbf88d755a60837948ff9cf80a2f00dc567defe863f6ac11692da664ec94"
+  },
+  "scope": "One frozen trained sample, repeated twice; four synthetic regressions. No training/checkpoint re-evaluation or FPGA synthesis."
+}
